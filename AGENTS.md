@@ -226,6 +226,39 @@ Não remova nada disto sem entender o efeito.
       com `font-display: swap` em `style.css`, `preload` no `head`. Zero conexão a
       `fonts.gstatic.com`
 
+### Design e conteúdo (aberto em 17/08/2026)
+
+- [ ] **Densidade da home.** Medido no celular a 390px: **20,1 telas** de rolagem,
+      1244 palavras e **13 das 21 telas sem nenhuma imagem**. Outras: quem-somos 11,4
+      telas com 10 de 12 sem imagem; perguntas-frequentes 6 telas com **zero** imagem;
+      contato 8,2 telas com 1. A página `/equipamentos` é a mais saudável, com 32,7%
+      da área em imagem. Decisão pendente do cliente: reduzir copy de fato (conflita
+      com o "800+ palavras úteis" que sustenta o SEO das categorias) ou reorganizar
+      sem perder conteúdo, com abertura sob demanda no celular. Sugestão registrada:
+      reorganizar nas páginas de equipamento e reduzir só na home, onde não há
+      prejuízo de ranqueamento
+- [ ] **Hero da home lê como template genérico.** Diagnóstico: chips com check no
+      topo, headline com uma palavra em cor de destaque, dois botões, foto à direita
+      com cartão flutuante. É o layout padrão de gerador de landing page. Pede
+      recomposição (tipografia editorial, assimetria, uso estrutural da faixa
+      listrada), não ajuste de detalhe
+- [ ] **`.checks li` na faixa `.section--art` da home mede 1,62:1 no celular.**
+      Investigação parcial: reforçar o vulto de .72 para .86 melhorou todo o resto
+      (h2 de 13,22 para 15,58) e **não mexeu** neste número, o que prova que a causa
+      não é o fundo atrás do texto, e sim algo pintado acima do vulto dentro da caixa
+      do item. Suspeita não confirmada: o círculo do `::before` do check. Para
+      fechar, medir só os retângulos de texto, excluindo pseudo-elementos
+- [ ] **Falta de foto própria é o teto do problema visual.** O projeto tem 5 fotos
+      reais reaproveitadas. O que mais ajudaria, em ordem: fachada e interior das 5
+      unidades, 2 ou 3 de equipe carregando ou entregando, e recortes de produto
+      **sem o losango laranja**, que hoje está queimado dentro dos 15 WebP de
+      equipamento (o `tools/images.py` só redimensiona, o losango vem da foto de
+      origem, e a pasta `ADC_SRC` não existe mais nesta máquina)
+- [ ] Selo "MAIS ALUGADO" aparece nos três cards de destaque da home, o que anula a
+      função de destacar. Precisa da ordem real de saída para diferenciar
+- [ ] Alinhamento de cabeçalho de seção alterna entre centralizado e à esquerda,
+      por causa da classe `.center` na marcação. Padronizar pede decisão de estilo
+
 ## Comandos
 
 ```bash

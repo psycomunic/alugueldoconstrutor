@@ -206,6 +206,13 @@ blockquote, figure { margin: 0; }
 .section--sand { background: var(--sand); }
 .section--dark { background: var(--ink-900); color: #cfcbcd; }
 .section--dark h1, .section--dark h2, .section--dark h3, .section--dark h4 { color: #fff; }
+/* `strong`/`b` herdam --ink-900 da regra global e ficavam invisiveis sobre
+   fundo escuro. Vale para toda faixa escura, nao so para a secao com arte. */
+.section--dark strong, .section--dark b,
+.hero strong, .hero b,
+.cta strong, .cta b,
+.pagehead strong, .pagehead b,
+.aside__card--dark strong, .aside__card--dark b { color: #fff; }
 .section--dark .lead { color: #b8b3b6; }
 
 .eyebrow {
@@ -826,6 +833,41 @@ main > .pagehead:first-child .pagehead__in { padding-top: calc(var(--nav-h) + cl
 }
 .figure figcaption { font-size: .82rem; color: var(--ink-500); margin-top: 10px; }
 
+/* ---- secao com arte de fundo em largura inteira ----
+   A arte cobre a secao toda e o texto fica por cima, na metade escura da
+   esquerda. O vulto garante leitura do texto claro sem depender do preto que
+   a arte ja tem, porque o recorte muda conforme a largura da tela. */
+.section--art { position: relative; overflow: hidden; background: var(--ink-950); }
+.section__art {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: 78% 50%;
+  z-index: 0;
+}
+.section--art::before {
+  content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background: linear-gradient(90deg,
+    var(--ink-950) 0%,
+    rgba(17, 16, 19, .94) 34%,
+    rgba(17, 16, 19, .80) 50%,
+    rgba(17, 16, 19, .30) 74%,
+    rgba(17, 16, 19, .06) 100%);
+}
+.section--art > .wrap { position: relative; z-index: 2; }
+.section__copy { max-width: 620px; }
+/* No estreito a arte quadrada tem os produtos no centro, entao o texto nao
+   tem canto escuro para ocupar: o vulto fica quase chapado. */
+@media (max-width: 899px) {
+  .section--art { --art-min: 78vw; }
+  .section__art { object-position: 50% 42%; }
+  .section--art::before {
+    background: linear-gradient(180deg,
+      rgba(17, 16, 19, .86) 0%,
+      rgba(17, 16, 19, .93) 38%,
+      rgba(17, 16, 19, .96) 100%);
+  }
+}
+
 /* lista com filete */
 .rulelist { list-style: none; margin: 0; padding: 0; }
 .rulelist li {
@@ -998,6 +1040,98 @@ main > .pagehead:first-child .pagehead__in { padding-top: calc(var(--nav-h) + cl
 .faq details[open] summary::after { transform: rotate(180deg); }
 .faq__a { padding: 0 22px 21px; font-size: .96rem; color: var(--ink-600); }
 .faq__a p:last-child { margin-bottom: 0; }
+
+/* ------------------------------------------------------------- video
+   Capa auto-hospedada; o iframe do YouTube so e criado no clique. */
+.ytlite { margin: 0; }
+
+/* Short ao lado de texto.
+   Em 9:16 um quadro de 360px tem 640px de altura e domina a secao: o bloco de
+   texto tem cerca de 300px e sobrava vazio em volta dele. Coluna mais estreita
+   e quadro menor aproximam as duas alturas. */
+/* A miniatura deste Short tem fundo claro. Solta sobre secao clara ela vira um
+   retangulo branco flutuando, sem contorno, com cara de captura colada. A
+   moldura escura devolve contraste e faz o bloco ler como peca desenhada. */
+/* A altura da secao passa a ser ditada pelo TEXTO, nao pelo video.
+   Antes: quadro de 292px em 9:16 = 519px de altura contra um bloco de texto de
+   ~280px, o que deixava 120px de vazio de cada lado do texto. Em 224px o video
+   fica com 398px e as duas colunas quase empatam.
+   A moldura escura fica porque a miniatura tem fundo claro e, sem ela, o
+   retangulo branco flutua sem contorno sobre a secao clara. */
+.split--video .ytlite {
+  background: linear-gradient(165deg, var(--ink-800) 0%, var(--ink-950) 100%);
+  padding: 12px;
+  border-radius: var(--r-lg);
+  box-shadow: var(--ring-dark), var(--sh-2);
+  max-width: 248px; margin-inline: auto;
+}
+.split--video .ytlite__quadro {
+  max-width: none;
+  border-radius: var(--r-sm);
+  clip-path: none;            /* o chanfro sobre branco lia como defeito */
+  box-shadow: none;
+}
+.split--video .ytlite figcaption {
+  margin-top: 10px; text-align: left; color: #a8a3a6; font-size: .78rem;
+}
+/* Uma coluna, centralizada, e nao duas.
+   Medido: o texto tem 278px de altura e o video 474px. Para empatar em duas
+   colunas o video teria que ter 156px de largura, pequeno demais para assistir.
+   Video vertical nao equilibra texto curto lado a lado, e a sobra virava vazio.
+   Sem coluna vizinha nao existe desencontro de altura. */
+.split--video { grid-template-columns: 1fr; justify-items: center; text-align: center; gap: 32px; }
+.split--video .lead { margin-inline: auto; }
+.split--video .btn-row { justify-content: center; }
+.split--video .ytlite figcaption { text-align: center; }
+@media (min-width: 900px) {
+  .split--video { max-width: 640px; margin-inline: auto; }
+}
+.ytlite__quadro {
+  position: relative;
+  width: 100%; max-width: 360px; margin-inline: auto;
+  aspect-ratio: 9 / 16;
+  border-radius: var(--r-lg); overflow: hidden;
+  background: var(--ink-900);
+  box-shadow: var(--sh-3);
+  clip-path: polygon(0 0, calc(100% - var(--notch)) 0, 100% var(--notch), 100% 100%, 0 100%);
+}
+.ytlite__capa {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+  transition: transform var(--t-slow) var(--e-out), filter var(--t) linear;
+}
+.ytlite__quadro:hover .ytlite__capa { transform: scale(1.04); filter: brightness(.92); }
+
+.ytlite__play {
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+  width: 74px; height: 74px; border-radius: 50%;
+  border: 0; cursor: pointer; padding: 0;
+  display: grid; place-items: center;
+  background: var(--orange);
+  box-shadow: 0 10px 30px rgba(17, 16, 19, .45);
+  transition: transform var(--t) var(--e-spring), background-color var(--t-fast) linear;
+}
+.ytlite__quadro:hover .ytlite__play { transform: translate(-50%, -50%) scale(1.08); }
+.ytlite__play:active { transform: translate(-50%, -50%) scale(.96); }
+/* triangulo escuro sobre o laranja: mesma dupla do botao primario, 6,69:1 */
+.ytlite__tri {
+  width: 0; height: 0; margin-left: 5px;
+  border-left: 22px solid #2b1400;
+  border-top: 13px solid transparent;
+  border-bottom: 13px solid transparent;
+}
+.ytlite__sem-js {
+  position: absolute; inset: auto 0 0 0; padding: 12px;
+  background: rgba(17, 16, 19, .8); color: #fff; text-align: center;
+  font-family: var(--font-display); font-weight: 700; font-size: .9rem;
+}
+.ytlite__frame { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.ytlite.is-playing .ytlite__capa,
+.ytlite.is-playing .ytlite__play { display: none; }
+.ytlite figcaption {
+  margin-top: 12px; text-align: center;
+  font-size: .84rem; color: var(--ink-500);
+}
+.section--dark .ytlite figcaption, .cta .ytlite figcaption { color: #a8a3a6; }
 
 /* ------------------------------------------------------------- CTA band */
 .cta {

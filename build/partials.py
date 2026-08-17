@@ -252,6 +252,36 @@ def _brand(depth, light=False):
             % (r("index.html"), BRAND, marks))
 
 
+def video(depth, vid, titulo, capa, alt, legenda=None):
+    """Capa clicavel que so carrega o player do YouTube depois do clique.
+
+    Um <iframe> direto do YouTube custa centenas de KB e varias conexoes a
+    terceiros em TODA visita, inclusive de quem nunca da play. Aqui a pagina
+    carrega so a imagem de capa, que e auto-hospedada; o player entra no
+    clique, via main.js, e no dominio youtube-nocookie.
+    Sem JS o <noscript> leva para o video no YouTube.
+    """
+    r = lambda p: rel(p, depth)
+    cap = ('<figcaption>%s</figcaption>' % legenda) if legenda else ''
+    return """<figure class="ytlite" data-yt="%(vid)s">
+  <div class="ytlite__quadro">
+    <img class="ytlite__capa" src="%(capa)s" srcset="%(capa400)s 400w, %(capa)s 720w"
+         sizes="(max-width: 700px) 86vw, 360px" width="720" height="1280"
+         loading="lazy" decoding="async" alt="%(alt)s">
+    <button class="ytlite__play" type="button" aria-label="Assistir ao vídeo: %(titulo)s">
+      <span class="ytlite__tri" aria-hidden="true"></span>
+    </button>
+    <noscript><a class="ytlite__sem-js" href="https://www.youtube.com/watch?v=%(vid)s"
+       target="_blank" rel="noopener">Assistir no YouTube</a></noscript>
+  </div>
+  %(cap)s
+</figure>""" % {
+        "vid": vid, "titulo": titulo, "alt": alt, "cap": cap,
+        "capa": r("assets/img/%s.webp" % capa),
+        "capa400": r("assets/img/%s-400.webp" % capa),
+    }
+
+
 def topbar(depth):
     r = lambda p: rel(p, depth)
     return """<div class="topbar">

@@ -139,6 +139,8 @@ EQUIPAMENTOS = [
         # "espelhar" vira a foto na horizontal: nesta o sol fica na esquerda,
         # que e onde entra o texto, entao espelhada o brilho sobra para a
         # direita e o texto cai sobre a parte escura da estrutura.
+        # liga o VIDEO_ANDAIME no corpo desta pagina
+        "video": True,
         "banner": {
             "arquivo": "banner-andaimes-obra",
             "espelhar": True,
@@ -1151,6 +1153,21 @@ FAQ_GERAL = [
      "responsabilidade do responsável técnico, e nós orientamos a sequência correta. "
      "Se você precisa de montagem, fale com a gente que indicamos o caminho."),
 ]
+
+# ===========================================================================
+# VIDEO
+# ===========================================================================
+# Video do canal, embutido na home e na pagina de andaimes.
+# "capa" e o nome base em assets/img: espera <capa>.webp (720x1280) e
+# <capa>-400.webp. A capa e auto-hospedada de proposito, para a pagina nao
+# tocar em dominio do YouTube antes do clique (ver P.video em partials.py).
+VIDEO_ANDAIME = {
+    "id": "-zvPHRtiu6A",
+    "titulo": "Andaime Fachadeiro - Aluguel do Construtor",
+    "capa": "video-andaime-capa",
+    "alt": "Andaime fachadeiro montado, em vídeo do Aluguel do Construtor",
+    "legenda": "Andaime fachadeiro. Vídeo do nosso canal no YouTube.",
+}
 
 # ===========================================================================
 # DIFERENCIAIS

@@ -239,6 +239,29 @@
     upd();
   });
 
+  /* ------------------------------------------------------------ video sob demanda
+     Troca a capa pelo player do YouTube so no clique. Antes disso a pagina
+     nao faz nenhuma requisicao a dominio de terceiro. */
+  $$('[data-yt]').forEach(function (caixa) {
+    var botao = $('.ytlite__play', caixa);
+    if (!botao) return;
+    botao.addEventListener('click', function () {
+      var vid = caixa.getAttribute('data-yt');
+      if (!vid || caixa.classList.contains('is-playing')) return;
+      var frame = document.createElement('iframe');
+      frame.className = 'ytlite__frame';
+      frame.src = 'https://www.youtube-nocookie.com/embed/' + encodeURIComponent(vid)
+        + '?autoplay=1&rel=0&modestbranding=1&playsinline=1';
+      frame.title = botao.getAttribute('aria-label') || 'Vídeo';
+      frame.allow = 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; web-share';
+      frame.setAttribute('allowfullscreen', '');
+      frame.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
+      $('.ytlite__quadro', caixa).appendChild(frame);
+      caixa.classList.add('is-playing');
+      frame.focus();
+    });
+  });
+
   /* ------------------------------------------------------------ ano no rodape */
   $$('[data-year]').forEach(function (el) { el.textContent = new Date().getFullYear(); });
 })();

@@ -18,7 +18,7 @@ import partials as P            # noqa: E402
 import schema as S              # noqa: E402
 from content import (           # noqa: E402
     EQUIPAMENTOS, DESTAQUES, UNIDADES, DEPOIMENTOS, PAGAMENTOS,
-    FAQ_GERAL, DIFERENCIAIS, relacionados,
+    FAQ_GERAL, DIFERENCIAIS, VIDEO_ANDAIME, relacionados,
 )
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -262,29 +262,53 @@ def page_index():
   </div>
 </section>
 
-<section class="section section--white">
+<section class="section section--tight section--sand">
   <div class="wrap">
-    <div class="split">
+    <div class="split split--video">
       <div>
-        <p class="eyebrow">Linha completa</p>
-        <h2>Do escoramento da laje à limpeza do pós-obra</h2>
-        <p class="lead">São 15 categorias que cobrem a obra do começo ao fim. Você aluga tudo
-        no mesmo lugar, com uma entrega só e um contato só, em vez de coordenar quatro
-        fornecedores diferentes.</p>
-        <ul class="checks mt-6">
-          <li><strong>Estrutura e altura:</strong> andaimes, escoras e escadas</li>
-          <li><strong>Concreto e demolição:</strong> betoneiras, marteletes e compactadores</li>
-          <li><strong>Corte e acabamento:</strong> cortadores de piso, serras, plainas e lixadeiras</li>
-          <li><strong>Limpeza e pós-obra:</strong> lavadoras, aspiradores, sopradores e bombas</li>
-        </ul>
-        <div class="btn-row mt-8">
-          <a class="btn btn--dark" href="%(eq)s">Ver as 15 categorias</a>
+        <p class="eyebrow">Em vídeo</p>
+        <h2>Andaime fachadeiro</h2>
+        <p class="lead">Um vídeo curto do andaime fachadeiro, usado em pintura,
+        revestimento e reforma de fachada. Se é o que a sua obra precisa, veja os detalhes na
+        <a href="%(v_and)s">página de andaimes</a> ou chame no WhatsApp que a gente
+        confirma disponibilidade.</p>
+        <div class="btn-row mt-6">
+          <a class="btn btn--wa" href="%(wa)s" target="_blank" rel="noopener">%(ico_wa)s Pedir orçamento</a>
+          <a class="btn btn--ghost" href="%(v_and)s">Ver andaimes</a>
         </div>
       </div>
-      <figure class="figure">
-        <img src="assets/img/kit-ferramentas.webp" width="860" height="739" loading="lazy" decoding="async"
-             alt="Conjunto de ferramentas elétricas profissionais disponíveis para locação: martelete, furadeira, lixadeira e parafusadeira">
-      </figure>
+      %(video)s
+    </div>
+  </div>
+</section>
+
+<!-- Faixa de largura inteira: a arte e o fundo e o texto vem por cima, na
+     metade escura da esquerda. Duas artes, enquadramentos diferentes por tela,
+     por isso <picture> com media e nao srcset. -->
+<section class="section section--dark section--art">
+  <picture>
+    <source media="(min-width: 900px)" srcset="assets/img/linha-completa-desktop.webp"
+            width="1600" height="650">
+    <img class="section__art" src="assets/img/linha-completa-mobile.webp"
+         width="900" height="900" loading="lazy" decoding="async"
+         alt="Compactador, lavadora de alta pressão, motosserra, serra circular e parafusadeira da linha alugada">
+  </picture>
+  <div class="wrap">
+    <div class="section__copy">
+      <p class="eyebrow">Linha completa</p>
+      <h2>Do escoramento da laje à limpeza do pós-obra</h2>
+      <p class="lead">São 15 categorias que cobrem a obra do começo ao fim. Você aluga tudo
+      no mesmo lugar, com uma entrega só e um contato só, em vez de coordenar quatro
+      fornecedores diferentes.</p>
+      <ul class="checks mt-6">
+        <li><strong>Estrutura e altura:</strong> andaimes, escoras e escadas</li>
+        <li><strong>Concreto e demolição:</strong> betoneiras, marteletes e compactadores</li>
+        <li><strong>Corte e acabamento:</strong> cortadores de piso, serras, plainas e lixadeiras</li>
+        <li><strong>Limpeza e pós-obra:</strong> lavadoras, aspiradores, sopradores e bombas</li>
+      </ul>
+      <div class="btn-row mt-8">
+        <a class="btn btn--primary" href="%(eq)s">Ver as 15 categorias</a>
+      </div>
     </div>
   </div>
 </section>
@@ -410,6 +434,10 @@ def page_index():
         "wa": P.WA_DEFAULT, "eq": "equipamentos.html", "un": "unidades.html",
         "parceiro": "seja-parceiro.html",
         "feats": "".join(feats), "difs": difs,
+        "v_and": "equipamentos/andaimes.html",
+        "video": P.video(0, VIDEO_ANDAIME["id"], VIDEO_ANDAIME["titulo"],
+                         VIDEO_ANDAIME["capa"], VIDEO_ANDAIME["alt"],
+                         VIDEO_ANDAIME["legenda"]),
         "units": unit_cards(0), "quotes": quotes_block(), "pays": pay_block(),
         "faq": faq_block(FAQ_GERAL[:7],
                          "Dúvidas de quem vai alugar pela primeira vez",
@@ -673,6 +701,7 @@ def page_equipamento(e):
   <div class="wrap eqlayout">
     <div class="prose">
       %(intro)s
+      %(video)s
 
       <h2>Onde esse equipamento se aplica</h2>
       <ul>%(usos)s</ul>
@@ -742,6 +771,11 @@ def page_equipamento(e):
         "ico_ck": ICO("check"), "ico_wa": ICO("whatsapp"), "ico_ph": ICO("phone"),
         "wa": wa, "eq": r("equipamentos.html", depth),
         "head_cls": head_cls, "bg": bg, "abre": abre, "fecha": fecha,
+        # video so na pagina que tem "video" declarado em EQUIPAMENTOS
+        "video": (P.video(depth, VIDEO_ANDAIME["id"], VIDEO_ANDAIME["titulo"],
+                          VIDEO_ANDAIME["capa"], VIDEO_ANDAIME["alt"],
+                          VIDEO_ANDAIME["legenda"])
+                  if e.get("video") else ""),
         "intro": intro, "usos": usos, "escolher": escolher, "norma": norma, "inclui": inclui,
         "u1": r("unidades/recreio-dos-bandeirantes.html", depth),
         "u2": r("unidades/vargem-grande.html", depth),
