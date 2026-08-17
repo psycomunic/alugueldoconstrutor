@@ -1063,7 +1063,9 @@ main > .pagehead:first-child .pagehead__in { padding-top: calc(var(--nav-h) + cl
   padding: 12px;
   border-radius: var(--r-lg);
   box-shadow: var(--ring-dark), var(--sh-2);
-  max-width: 248px; margin-inline: auto;
+  /* numa coluna so nao existe altura vizinha para competir, entao o video pode
+     ter o tamanho que merece como assunto da secao */
+  max-width: 330px; margin-inline: auto;
 }
 .split--video .ytlite__quadro {
   max-width: none;
@@ -1079,12 +1081,64 @@ main > .pagehead:first-child .pagehead__in { padding-top: calc(var(--nav-h) + cl
    colunas o video teria que ter 156px de largura, pequeno demais para assistir.
    Video vertical nao equilibra texto curto lado a lado, e a sobra virava vazio.
    Sem coluna vizinha nao existe desencontro de altura. */
-.split--video { grid-template-columns: 1fr; justify-items: center; text-align: center; gap: 32px; }
-.split--video .lead { margin-inline: auto; }
-.split--video .btn-row { justify-content: center; }
-.split--video .ytlite figcaption { text-align: center; }
+/* ---- secao do video: faixa escura desenhada ----
+   A miniatura do Short tem fundo claro, entao ela ganha contraste sobre escuro.
+   O brilho laranja atras e a textura de planta baixa sao os mesmos motivos do
+   hero, para a secao pertencer ao site e nao parecer bloco avulso. */
+.section--video { position: relative; overflow: hidden; }
+.section--video::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(760px 460px at 78% 12%, rgba(250, 126, 2, .22), transparent 62%),
+    radial-gradient(520px 320px at 6% 92%, rgba(6, 190, 37, .08), transparent 64%);
+}
+.section--video::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, .035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, .035) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(700px 460px at 12% 30%, #000 15%, transparent 74%);
+}
+.section--video > .wrap { position: relative; z-index: 1; }
+
+.split--video { gap: clamp(34px, 5vw, 64px); align-items: center; }
 @media (min-width: 900px) {
-  .split--video { max-width: 640px; margin-inline: auto; }
+  /* texto na esquerda, video na direita */
+  .split--video { grid-template-columns: minmax(0, 1fr) 360px; }
+}
+
+/* chips em coluna: enchem a altura com informacao, nao com vazio */
+.chips-col { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; margin-top: 22px; }
+.chips-col .chip { font-size: .86rem; padding: 9px 15px; }
+
+/* numero grande atras do quadro, do mesmo vocabulario dos passos numerados */
+.split--video__media { position: relative; }
+.split--video__num {
+  position: absolute; top: -26px; left: -14px; z-index: 0;
+  font-family: var(--font-display); font-weight: 800; font-size: 6.5rem; line-height: 1;
+  letter-spacing: -.06em; color: rgba(255, 255, 255, .07);
+  pointer-events: none;
+}
+@media (max-width: 899px) { .split--video__num { display: none; } }
+
+/* quadro do video: moldura escura mais o halo laranja, que separa do fundo */
+.split--video .ytlite {
+  position: relative; z-index: 1;
+  background: linear-gradient(165deg, #242022 0%, var(--ink-950) 100%);
+  padding: 13px;
+  border: 1px solid rgba(255, 255, 255, .09);
+  border-radius: var(--r-lg);
+  box-shadow: var(--ring-dark), 0 26px 60px rgba(0, 0, 0, .5), var(--sh-orange);
+  max-width: 330px; margin-inline: auto;
+}
+.split--video .ytlite__quadro {
+  max-width: none; border-radius: var(--r-sm);
+  clip-path: none;            /* o chanfro sobre miniatura clara lia como defeito */
+  box-shadow: none;
+}
+.split--video .ytlite figcaption {
+  margin-top: 11px; text-align: left; color: #9b9699; font-size: .78rem;
 }
 .ytlite__quadro {
   position: relative;

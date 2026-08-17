@@ -262,26 +262,6 @@ def page_index():
   </div>
 </section>
 
-<section class="section section--tight section--sand">
-  <div class="wrap">
-    <div class="split split--video">
-      <div>
-        <p class="eyebrow">Em vídeo</p>
-        <h2>Andaime fachadeiro</h2>
-        <p class="lead">Um vídeo curto do andaime fachadeiro, usado em pintura,
-        revestimento e reforma de fachada. Se é o que a sua obra precisa, veja os detalhes na
-        <a href="%(v_and)s">página de andaimes</a> ou chame no WhatsApp que a gente
-        confirma disponibilidade.</p>
-        <div class="btn-row mt-6">
-          <a class="btn btn--wa" href="%(wa)s" target="_blank" rel="noopener">%(ico_wa)s Pedir orçamento</a>
-          <a class="btn btn--ghost" href="%(v_and)s">Ver andaimes</a>
-        </div>
-      </div>
-      %(video)s
-    </div>
-  </div>
-</section>
-
 <!-- Faixa de largura inteira: a arte e o fundo e o texto vem por cima, na
      metade escura da esquerda. Duas artes, enquadramentos diferentes por tela,
      por isso <picture> com media e nao srcset. -->
@@ -327,6 +307,32 @@ def page_index():
     </div>
   </div>
 </section>
+<section class="section section--dark section--video">
+  <div class="wrap">
+    <div class="split split--video">
+      <div class="split--video__txt">
+        <p class="eyebrow">Em vídeo</p>
+        <h2>Andaime fachadeiro,<br>de perto</h2>
+        <p class="lead">Antes de alugar, veja o equipamento. Painel, travessa, diagonal e
+        piso montados, do jeito que chega no seu canteiro.</p>
+        <div class="chips-col">
+          <span class="chip">%(ico_ck)s Pintura de fachada</span>
+          <span class="chip">%(ico_ck)s Revestimento em altura</span>
+          <span class="chip">%(ico_ck)s Reforma e manutenção</span>
+        </div>
+        <div class="btn-row mt-8">
+          <a class="btn btn--wa btn--lg" href="%(wa)s" target="_blank" rel="noopener">%(ico_wa)s Pedir orçamento</a>
+          <a class="btn btn--ghost btn--lg" href="%(v_and)s">Ver andaimes</a>
+        </div>
+      </div>
+      <div class="split--video__media">
+        <span class="split--video__num" aria-hidden="true">01</span>
+        %(video)s
+      </div>
+    </div>
+  </div>
+</section>
+
 
 <section class="section section--paper">
   <div class="wrap">
