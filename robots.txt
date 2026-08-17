@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+# Sem area restrita: tudo pode ser indexado.
+Disallow: /404.html
+
+Sitemap: https://alugueldoconstrutor.com/sitemap.xml

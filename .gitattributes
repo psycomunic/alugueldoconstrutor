@@ -1,0 +1,12 @@
+# O Git for Windows vem com core.autocrlf=true no nivel de sistema, o que
+# converteria estes arquivos para CRLF na copia de trabalho. O build roda em
+# Linux na Vercel (python3 build/build.py), entao o projeto fica em LF.
+* text=auto eol=lf
+
+# Binarios: nao tocar
+*.webp binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.ico binary
+*.woff2 binary

@@ -1,0 +1,40 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "buildCommand": "python3 build/build.py || python build/build.py",
+  "outputDirectory": ".",
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "X-Frame-Options", "value": "SAMEORIGIN" },
+        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
+        { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=(), interest-cohort=()" },
+        { "key": "Strict-Transport-Security", "value": "max-age=63072000; includeSubDomains; preload" }
+      ]
+    },
+    {
+      "source": "/assets/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+      ]
+    },
+    {
+      "source": "/sitemap.xml",
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=3600" }]
+    }
+  ],
+  "redirects": [
+    { "source": "/nossos-produtos", "destination": "/equipamentos", "permanent": true },
+    { "source": "/produtos", "destination": "/equipamentos", "permanent": true },
+    { "source": "/quem-somos/", "destination": "/quem-somos", "permanent": true },
+    { "source": "/unidades/", "destination": "/unidades", "permanent": true },
+    { "source": "/contato/", "destination": "/contato", "permanent": true },
+    { "source": "/pagina-inicial", "destination": "/", "permanent": true },
+    { "source": "/andaimes", "destination": "/equipamentos/andaimes", "permanent": true },
+    { "source": "/betoneiras", "destination": "/equipamentos/betoneiras", "permanent": true },
+    { "source": "/marteletes", "destination": "/equipamentos/marteletes", "permanent": true }
+  ]
+}
