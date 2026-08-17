@@ -318,7 +318,12 @@ blockquote, figure { margin: 0; }
 .topbar__list { display: flex; align-items: center; gap: 22px; }
 .topbar__item { display: inline-flex; align-items: center; gap: 7px; }
 .topbar__item svg { width: 14px; height: 14px; color: var(--orange); flex: none; }
+/* Alvo de toque de 24px (WCAG 2.5.8, nivel AA). Medido: os links da topbar
+   tinham 13px de altura e os icones sociais 16x16. O padding cresce a area
+   clicavel e a margem negativa devolve o espaco, entao nada se move na tela. */
+.topbar a { padding-block: 6px; }
 .topbar__social { display: flex; gap: 14px; }
+.topbar__social a { display: inline-flex; padding: 4px; margin: -4px; }
 .topbar__social svg { width: 16px; height: 16px; }
 @media (max-width: 900px) { .topbar { display: none; } }
 
@@ -505,7 +510,11 @@ main > .pagehead:first-child .pagehead__in { padding-top: calc(var(--nav-h) + cl
 }
 .nav__panel .nav__all svg { transition: transform var(--t) var(--e-out); }
 .nav__panel .nav__all:hover svg { transform: translateX(4px); }
-@media (max-width: 1000px) { .nav, .nav__cta { display: none; } }
+/* 1100px e nao 1000px: entre 1000 e 1100 o menu horizontal ainda aparecia mas
+   nao cabia. Dois defeitos medidos nessa faixa: o painel do dropdown vazava
+   11px fora da tela pela esquerda, e o texto do botao "Pedir orcamento" era
+   recortado pelo overflow: hidden do brilho. Nessa faixa vale o drawer. */
+@media (max-width: 1100px) { .nav, .nav__cta { display: none; } }
 
 /* burger + drawer */
 .burger {
@@ -524,7 +533,7 @@ main > .pagehead:first-child .pagehead__in { padding-top: calc(var(--nav-h) + cl
 .burger[aria-expanded="true"] span { background: transparent; }
 .burger[aria-expanded="true"] span::before { top: 0; transform: rotate(45deg); }
 .burger[aria-expanded="true"] span::after { top: 0; transform: rotate(-45deg); }
-@media (max-width: 1000px) { .burger { display: inline-flex; } }
+@media (max-width: 1100px) { .burger { display: inline-flex; } }
 
 .drawer {
   position: fixed; inset: 0; z-index: 95;
@@ -561,6 +570,11 @@ main > .pagehead:first-child .pagehead__in { padding-top: calc(var(--nav-h) + cl
 .drawer details > summary::after { content: "+"; font-size: 1.3rem; color: var(--ink-400); }
 .drawer details[open] > summary::after { content: "\2013"; }
 .drawer details a { font-size: .95rem; font-weight: 500; padding-left: 26px; color: var(--ink-600); }
+/* `.drawer a` (0,1,1) tem especificidade maior que `.btn` (0,1,0) e estava
+   sobrepondo o display: inline-flex, o que empilhava o icone acima do texto
+   dentro dos botoes do menu mobile. Estes seletores tem duas classes e vencem. */
+.drawer a.btn { display: inline-flex; }
+.drawer a.btn--block { width: 100%; }
 .drawer .btn { margin-top: 12px; }
 
 /* ------------------------------------------------------------- hero */
@@ -899,6 +913,9 @@ main > .pagehead:first-child .pagehead__in { padding-top: calc(var(--nav-h) + cl
 .unit h3 { font-size: 1.16rem; margin: 0; }
 .unit__meta { display: grid; gap: 9px; font-size: .89rem; color: var(--ink-600); margin-top: -4px; }
 .unit__meta div { display: flex; gap: 9px; align-items: flex-start; }
+/* os links de WhatsApp e telefone do card mediam 23px de altura, logo abaixo
+   do minimo de 24px. Padding com margem negativa: ganha area, nao move nada. */
+.unit__meta a { display: inline-block; padding-block: 3px; margin-block: -3px; }
 .unit__meta svg { width: 16px; height: 16px; color: var(--ink-400); flex: none; margin-top: 3px; }
 .unit__foot { margin-top: auto; padding-top: 6px; }
 
@@ -1107,6 +1124,18 @@ main > .pagehead:first-child .pagehead__in { padding-top: calc(var(--nav-h) + cl
 /* segura o texto na metade escura, longe do pin */
 .pagehead__copy { max-width: 620px; }
 
+/* Foto do produto no hero com banner: aparece SO em tela pequena.
+   No desktop o banner ja carrega o visual e a foto seria redundante; no
+   celular ela e o que identifica o equipamento, igual as outras 14 paginas.
+   O corte em 939px e o mesmo em que .pagehead--split empilha, entao nessa
+   faixa a pagina fica com o mesmo arranjo das demais: texto e foto embaixo. */
+.pagehead__img--mini { display: none; }
+@media (max-width: 939px) {
+  /* sem max-width aqui: .pagehead__img e definida depois no arquivo e venceria
+     de qualquer forma. O tamanho sai de la, uma fonte de verdade so. */
+  .pagehead__img--mini { display: block; margin: 26px auto 0; }
+}
+
 /* 1199px e nao 999px: medido, em 1024 o texto de 620px ocupa 61% da largura,
    onde o degrade do desktop ja caiu para .60 e o lead ficava em 4,33:1. */
 @media (max-width: 1199px) {
@@ -1129,7 +1158,9 @@ main > .pagehead:first-child .pagehead__in { padding-top: calc(var(--nav-h) + cl
   }
 }
 .pagehead__img {
-  width: 100%; max-width: 420px; margin-inline: auto;
+  /* 520px e nao 420: a coluna da direita mede 525px em 1440, entao os 420
+     antigos deixavam 105px de espaco sobrando sem uso. */
+  width: 100%; max-width: 520px; margin-inline: auto;
   aspect-ratio: 1 / 1; object-fit: contain;
 }
 

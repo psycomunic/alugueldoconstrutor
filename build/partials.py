@@ -305,9 +305,12 @@ def header(active, depth=0, equipamentos=None):
     drawer_eq = "".join(
         '<a href="%s">%s</a>' % (r("equipamentos/%s.html" % e["slug"]), e["nome"])
         for e in equipamentos)
+    # Fora "equipamentos.html", que virou o <details> com as 15 categorias, e
+    # fora "index.html", que ja e escrito na mao logo antes do <details>. Sem
+    # esta segunda exclusao o "Inicio" aparecia duas vezes no menu mobile.
     drawer_nav = "".join(
         '<a href="%s"%s>%s</a>' % (r(h), ' aria-current="page"' if h == active else "", l)
-        for h, l in NAV if h != "equipamentos.html")
+        for h, l in NAV if h not in ("equipamentos.html", "index.html"))
 
     return """%(topbar)s
 <header class="header" data-header>

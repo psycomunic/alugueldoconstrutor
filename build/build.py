@@ -617,7 +617,20 @@ def page_equipamento(e):
               % (_b(""), _b("-980"), _b(""), banner["alt"]))
         head_cls = " pagehead--banner"
         abre = '<div class="pagehead__copy mt-6">'
-        fecha = "</div>"
+        # Em tela pequena o banner fica atras E a foto do produto aparece
+        # abaixo do texto, como nas outras paginas de equipamento: no celular
+        # e ela que identifica o item. No desktop o banner ja faz esse papel,
+        # entao o CSS esconde. Usa a variante de 380px porque so renderiza
+        # em tela estreita, e lazy para nao competir com o banner no LCP.
+        # srcset com as duas larguras: em aparelho de densidade 2x a foto ocupa
+        # ~390 CSS px, ou seja 780 fisicos, e o arquivo de 380 sairia borrado.
+        fecha = ('</div>\n      <img class="pagehead__img pagehead__img--mini" src="%s"\n'
+                 '           srcset="%s 380w, %s 760w" sizes="(max-width: 939px) 92vw, 520px"\n'
+                 '           width="380" height="380" loading="lazy" decoding="async" alt="%s">'
+                 % (r("assets/img/equipamentos/%s-380.webp" % e["slug"], depth),
+                    r("assets/img/equipamentos/%s-380.webp" % e["slug"], depth),
+                    r("assets/img/equipamentos/%s.webp" % e["slug"], depth),
+                    "%s disponíveis para locação no Rio de Janeiro" % e["nome"]))
         preload = "assets/img/%s.webp" % banner["arquivo"]
     else:
         bg = ""
