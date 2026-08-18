@@ -850,14 +850,18 @@ main > .pagehead:first-child .pagehead__in { padding-top: calc(var(--nav-h) + cl
   object-fit: cover; object-position: 78% 50%;
   z-index: 0;
 }
+/* Vulto so na faixa do TEXTO, e zerado antes dos produtos.
+   Medido: sem vulto nenhum o desktop melhora (h2 de 18,96 para 21,00), mas em
+   1024 a coluna de texto e mais estreita e a lista caia para 1,30:1 sobre a
+   parte clara da arte. Aqui ele morre em 60%, entao os produtos, que ficam da
+   direita, nao levam nenhum escurecimento. */
 .section--art::before {
   content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
   background: linear-gradient(90deg,
     var(--ink-950) 0%,
-    rgba(17, 16, 19, .94) 34%,
-    rgba(17, 16, 19, .80) 50%,
-    rgba(17, 16, 19, .30) 74%,
-    rgba(17, 16, 19, .06) 100%);
+    rgba(17, 16, 19, .92) 42%,
+    rgba(17, 16, 19, .55) 54%,
+    rgba(17, 16, 19, 0) 62%);
 }
 .section--art > .wrap { position: relative; z-index: 2; }
 .section__copy { max-width: 620px; }
