@@ -26,7 +26,16 @@ const MIME = {
 };
 
 const send = (res, code, body, type) => {
-  res.writeHead(code, { 'Content-Type': type || 'text/plain; charset=utf-8' });
+  res.writeHead(code, {
+    'Content-Type': type || 'text/plain; charset=utf-8',
+    // Sem isto o servidor nao mandava nenhum cabecalho de cache: nem
+    // Cache-Control, nem ETag, nem Last-Modified. Sem diretiva e sem
+    // validador o navegador aplica cache heuristico e pode segurar CSS e JS
+    // velhos por tempo indefinido. Em desenvolvimento isso aparece como
+    // "o site quebrou todo", porque roda CSS antigo contra HTML novo.
+    // Vale so aqui: em producao quem manda cache e o vercel.json.
+    'Cache-Control': 'no-store, must-revalidate',
+  });
   res.end(body);
 };
 

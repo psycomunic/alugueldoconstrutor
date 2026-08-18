@@ -293,7 +293,7 @@ def page_index():
   </div>
 </section>
 
-<section class="section section--sand">
+<section class="section section--sand section--steps">
   <div class="wrap">
     <div class="sec-head center">
       <p class="eyebrow">Como funciona</p>

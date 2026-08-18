@@ -942,6 +942,46 @@ main > .pagehead:first-child .pagehead__in { padding-top: calc(var(--nav-h) + cl
 .step h3 { font-size: 1.08rem; margin-bottom: .35em; }
 .step p { font-size: .9rem; color: var(--ink-600); margin: 0; }
 
+/* ---- faixa dos passos ----
+   Antes eram quatro cards brancos sobre areia: a diferenca entre #fff e
+   #fbf7f1 e quase nula, entao a secao inteira parecia lavada, e o trilho
+   pontilhado passava por cima das bordas sem ligar coisa nenhuma.
+   Aqui a caixa some, o disco do numero fica na linha e o trilho passa por
+   TRAS dos discos, ligando um ao outro de verdade. */
+/* Fica CLARA de proposito: ela mora entre a faixa da linha completa e a do
+   video, as duas escuras. Escurecer aqui daria tres escuras seguidas. */
+.section--steps { position: relative; overflow: hidden; }
+.section--steps::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(820px 420px at 50% -10%, rgba(250, 126, 2, .07), transparent 64%);
+}
+.section--steps > .wrap { position: relative; z-index: 1; }
+
+.section--steps .steps { gap: 40px; }
+@media (min-width: 860px) { .section--steps .steps { gap: 28px; } }
+
+.section--steps .step {
+  background: none; border: 0; box-shadow: none;
+  padding: 0; border-radius: 0;
+}
+.section--steps .step:hover { transform: none; box-shadow: none; }
+/* disco na linha, nao pendurado fora do card */
+.section--steps .step::before {
+  position: static; margin-bottom: 20px;
+  width: 46px; height: 46px; border-radius: 13px;
+  font-size: 1.1rem;
+  box-shadow: 0 8px 20px rgba(250, 126, 2, .38);
+}
+.section--steps .step:hover::before { transform: translateY(-3px) scale(1.06); }
+/* trilho ligando os discos, atras deles */
+@media (min-width: 860px) {
+  .section--steps .step::after {
+    top: 23px; left: 58px; right: -28px; height: 2px;
+    background: linear-gradient(90deg, rgba(250, 126, 2, .55), rgba(163, 82, 0, .16));
+  }
+}
+.section--steps .step h3 { font-size: 1.12rem; }
+
 /* ------------------------------------------------------------- unidades */
 .units { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(285px, 1fr)); }
 .unit {
