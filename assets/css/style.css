@@ -373,14 +373,13 @@ blockquote, figure { margin: 0; }
   .header { background: rgba(255, 255, 255, .97); }
   .header.is-stuck { background: rgba(255, 255, 255, .98); }
 }
-.header__in {
-  display: flex; align-items: center; gap: 20px; height: var(--nav-h);
-  transition: height var(--t) var(--e-out);
-}
-/* encolhe um pouco depois de rolar: mais area util para o conteudo */
-.header.is-stuck .header__in { height: 64px; }
-.header.is-stuck .brand__mark { width: 34px; height: 34px; }
-.brand__mark { transition: width var(--t) var(--e-out), height var(--t) var(--e-out); }
+.header__in { display: flex; align-items: center; gap: 20px; height: var(--nav-h); }
+/* NAO mude a altura do header no scroll.
+   Ele fica no fluxo e o hero sobe por tras dele com margem negativa, entao
+   encolher reflui o documento inteiro: medido, o h1 pulava 12px e a pagina
+   inteira 12px. Perto do limiar de .is-stuck isso vira laco: encolhe, o
+   conteudo sobe, o scroll muda, o estado desliga, expande, empurra de volta.
+   O resultado e a hero tremendo. O estado de rolagem muda so o visual. */
 
 /* ---- header sobreposto ao hero ----
    O primeiro bloco escuro da pagina sobe para tras do header e compensa com
