@@ -94,6 +94,7 @@
   /* layout */
   --wrap: 1200px;
   --pad: 20px;
+  --pad-narrow: 22px;
   --nav-h: 76px;
 
   /* motivo do telhado: canto chanfrado */
@@ -1341,17 +1342,27 @@ main > .pagehead:first-child .pagehead__in { padding-top: calc(var(--nav-h) + cl
    620px, entao a faixa forte tem que cobrir essa largura em cada breakpoint.
    Ate 1000px o texto ocupa quase toda a largura, e por isso o vulto fica
    quase chapado ali. */
-.pagehead--banner::before {
-  background:
-    linear-gradient(90deg,
-      var(--ink-900) 0%,
-      rgba(23, 22, 26, .94) 30%,
-      rgba(23, 22, 26, .90) 46%,
-      rgba(23, 22, 26, .60) 62%,
-      rgba(23, 22, 26, .26) 80%,
-      rgba(23, 22, 26, .14) 100%),
-    radial-gradient(700px 380px at 88% 0%, rgba(250, 126, 2, .14), transparent 60%);
-  z-index: 1;
+/* Sem vulto. Medido: a metade esquerda da propria arte de desktop e mais
+   escura do que o vulto era, entao ele so apagava a imagem; sem ele o
+   contraste ate melhora, de 18,01 para 20,72 no h1.
+   No celular a arte quadrada vai para o TOPO, acima do texto, e nao atras
+   dele: com o produto claro no centro, texto por cima ficava em 1,10:1. */
+.pagehead--banner::before { display: none; }
+@media (max-width: 899px) {
+  /* cancela a subida do hero para tras do header, senao o topo da arte fica
+     escondido pelo menu */
+  main > .pagehead--banner:first-child { margin-top: 0; }
+  .pagehead--banner .pagehead__bg {
+    position: static;
+    width: 100%; height: auto;
+    object-fit: contain;
+    display: block;
+  }
+  /* especificidade igual a da regra que empurra o hero para baixo do
+     header: no celular ele nao sobe mais, entao esse espaco sobrava */
+  main > .pagehead--banner:first-child .pagehead__in { padding-top: clamp(22px, 5vw, 32px); }
+  /* a foto quadrada do produto vira redundante: a arte do topo ja mostra o item */
+  .pagehead--banner .pagehead__img--mini { display: none; }
 }
 .pagehead--banner .pagehead__in {
   position: relative; z-index: 2;
@@ -1586,3 +1597,15 @@ main > .pagehead:first-child .pagehead__in { padding-top: calc(var(--nav-h) + cl
   body { background: #fff; color: #000; font-size: 12pt; }
   a[href^="http"]::after { content: " (" attr(href) ")"; font-size: .8em; color: #555; }
 }
+
+
+/* ------------------------------------------------- respiro nas bordas
+   20px colava o texto na borda no celular. 22px em tela media e 24px no
+   telefone dao folga sem comer largura util. */
+@media (max-width: 899px) { :root { --pad: 22px; } }
+@media (max-width: 560px) { :root { --pad: 24px; } }
+
+/* .pagehead__in usa `padding` no atalho, com 0 nas laterais, e por vir depois
+   de .wrap no arquivo ela anulava o padding-inline. O texto do hero encostava
+   na borda no celular. Devolve o respiro sem mexer no padding vertical. */
+.pagehead__in { padding-inline: var(--pad); }
