@@ -72,7 +72,7 @@ def eq_cards(lista, depth):
       </span>
     </a>""" % {
             "href": r("equipamentos/%s.html" % e["slug"], depth),
-            "img": r("assets/img/equipamentos/%s-380.webp" % e["slug"], depth),
+            "img": r("assets/img/banners/%s-card.webp" % e["slug"], depth),
             "alt": "Aluguel de %s no Rio de Janeiro" % e["nome"].lower(),
             "nome": e["nome"], "res": e["resumo"], "arrow": ICO("arrow"),
         })
@@ -177,7 +177,7 @@ def page_index():
       </div>
     </a>""" % {
             "d": i, "href": r("equipamentos/%s.html" % e["slug"], 0),
-            "img": r("assets/img/equipamentos/%s.webp" % e["slug"], 0),
+            "img": r("assets/img/banners/%s-card.webp" % e["slug"], 0),
             "alt": "Aluguel de %s no Rio de Janeiro" % e["nome"].lower(),
             "nome": e["nome"], "res": e["resumo"], "arrow": ICO("arrow"),
             "tags": "".join('<span class="tag">%s</span>' % t for t in tags),

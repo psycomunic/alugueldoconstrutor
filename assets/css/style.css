@@ -762,10 +762,11 @@ main > .pagehead:first-child .pagehead__in { padding-top: calc(var(--nav-h) + cl
   transform: translateY(-5px);
   box-shadow: var(--ring), var(--sh-2); border-color: var(--line-2);
 }
+/* A arte nova e foto quadrada com fundo preto, nao recorte sobre branco:
+   cover sem padding e sem fundo claro, senao sobra moldura branca em volta. */
 .eq__img {
-  width: 100%; aspect-ratio: 1 / 1; object-fit: contain;
-  background: radial-gradient(120% 90% at 50% 15%, #fff 0%, var(--paper) 70%);
-  padding: 8px;
+  width: 100%; aspect-ratio: 1 / 1; object-fit: cover;
+  background: var(--ink-950);
   transition: transform var(--t-slow) var(--e-out);
 }
 .eq:hover .eq__img { transform: scale(1.045); }
@@ -796,12 +797,9 @@ main > .pagehead:first-child .pagehead__in { padding-top: calc(var(--nav-h) + cl
   box-shadow: var(--ring), var(--sh-3); border-color: var(--line-2);
 }
 .feat::before { border-radius: var(--r-xl) var(--r-xl) 0 0; }
-.feat__media {
-  position: relative; overflow: hidden;
-  background: radial-gradient(120% 90% at 50% 10%, #fff 0%, var(--paper) 72%);
-}
+.feat__media { position: relative; overflow: hidden; background: var(--ink-950); }
 .feat__media img {
-  width: 100%; aspect-ratio: 4 / 3; object-fit: contain; padding: 12px;
+  width: 100%; aspect-ratio: 4 / 3; object-fit: cover;
   transition: transform var(--t-slow) var(--e-out);
 }
 .feat:hover .feat__media img { transform: scale(1.06) rotate(-1deg); }
