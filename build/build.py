@@ -207,7 +207,11 @@ def page_index():
         <span class="chip">%(ico_ck)s Equipamento revisado antes de sair</span>
         <span class="chip">%(ico_ck)s Entrega com frota própria</span>
       </div>
-      <h1>Locação de equipamentos para obra <em>sem obra parada</em></h1>
+      <!-- H1 carrega os dois termos-alvo do AGENTS.md, "aluguel de
+           equipamentos" e "Rio de Janeiro", que antes nao apareciam
+           em lugar nenhum do H1. O gancho de marca fica no <em>. -->
+      <h1>Aluguel de equipamentos para obra no Rio de Janeiro,
+      <em>sem obra parada</em></h1>
       <p class="hero__lead">Andaimes, betoneiras, marteletes e mais 12 categorias, com peça
       conferida uma a uma, entrega no canteiro e orçamento respondido no WhatsApp. Cinco
       unidades no Rio de Janeiro, do Recreio a Botafogo.</p>
@@ -253,7 +257,7 @@ def page_index():
   <div class="wrap">
     <div class="sec-head">
       <p class="eyebrow">Os mais alugados</p>
-      <h2>Os três que resolvem a maior parte das obras</h2>
+      <h2>Aluguel de andaimes, betoneiras e marteletes</h2>
       <p class="lead">Andaime, betoneira e martelete respondem por boa parte dos pedidos que
       chegam aqui. São também os itens em que a diferença entre equipamento bem cuidado e
       equipamento cansado aparece logo no primeiro dia.</p>
