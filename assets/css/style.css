@@ -213,6 +213,11 @@ blockquote, figure { margin: 0; }
 .cta strong, .cta b,
 .pagehead strong, .pagehead b,
 .aside__card--dark strong, .aside__card--dark b { color: #fff; }
+/* Excecao: cartao CLARO dentro de faixa escura. A regra acima pintava de
+   branco o negrito do cartao branco sobre a foto do hero, e o titulo
+   "Sai hoje, chega hoje" sumia. */
+.hero__tag strong, .hero__tag b,
+.chip--light strong, .chip--light b { color: var(--ink-900); }
 .section--dark .lead { color: #b8b3b6; }
 
 .eyebrow {
