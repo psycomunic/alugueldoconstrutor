@@ -200,9 +200,16 @@ def page_index():
     html += """
 <main id="conteudo">
 
-<section class="hero">
+<section class="hero hero--banner">
+  <picture>
+    <source media="(min-width: 900px)" srcset="assets/img/banners/hero-desktop.webp"
+            width="1600" height="773">
+    <img class="hero__bg" src="assets/img/banners/hero-mobile.webp" width="900" height="435"
+         fetchpriority="high" decoding="async"
+         alt="Caminhao do Aluguel do Construtor carregado no galpao, com estoque de equipamentos ao fundo">
+  </picture>
   <div class="wrap hero__in">
-    <div>
+    <div class="hero__copy">
       <div class="hero__badges">
         <span class="chip">%(ico_ck)s Equipamento revisado antes de sair</span>
         <span class="chip">%(ico_ck)s Entrega com frota própria</span>
@@ -221,16 +228,6 @@ def page_index():
       </div>
     </div>
 
-    <div class="hero__media">
-      <img class="hero__img" src="assets/img/hero-caminhao-andaimes.webp"
-           srcset="assets/img/hero-caminhao-andaimes-560.webp 560w, assets/img/hero-caminhao-andaimes.webp 1120w"
-           sizes="(min-width: 900px) 46vw, 92vw"
-           width="1120" height="1400" fetchpriority="high" decoding="async"
-           alt="Caminhão do Aluguel do Construtor carregado com andaimes no galpão, pronto para entrega na obra">
-      <div class="hero__tag">
-        %(ico_truck)s
-        <span><b>Sai hoje, chega hoje</b><span>Entrega e retirada na obra, com equipe própria</span></span>
-      </div>
     </div>
   </div>
 

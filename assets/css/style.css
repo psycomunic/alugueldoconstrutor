@@ -1614,3 +1614,35 @@ main > .pagehead:first-child .pagehead__in { padding-top: calc(var(--nav-h) + cl
    de .wrap no arquivo ela anulava o padding-inline. O texto do hero encostava
    na borda no celular. Devolve o respiro sem mexer no padding vertical. */
 .pagehead__in { padding-inline: var(--pad); }
+
+/* ---------------------------------------------- hero com banner de fundo
+   A arte tem o lado esquerdo escuro por desenho, entao o texto vai por cima
+   dela em vez de ao lado de uma foto. O vulto morre antes do caminhao, para
+   nao apagar a parte que interessa, mesma logica das paginas de equipamento. */
+.hero--banner .hero__in { grid-template-columns: 1fr; }
+.hero__copy { max-width: 560px; position: relative; z-index: 2; }
+.hero__bg {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: 70% 50%;
+  z-index: 0;
+}
+.hero--banner::after {
+  z-index: 1;
+  background: linear-gradient(90deg,
+    var(--ink-950) 0%,
+    rgba(17, 16, 19, .93) 46%,
+    rgba(17, 16, 19, .78) 60%,
+    rgba(17, 16, 19, .34) 74%,
+    rgba(17, 16, 19, 0) 86%);
+  mask-image: none;
+}
+@media (max-width: 899px) {
+  /* no estreito o texto ocupa a largura toda, entao o vulto e vertical */
+  .hero--banner::after {
+    background: linear-gradient(180deg,
+      rgba(17, 16, 19, .74) 0%,
+      rgba(17, 16, 19, .92) 46%,
+      rgba(17, 16, 19, .96) 100%);
+  }
+}
