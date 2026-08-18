@@ -862,15 +862,18 @@ main > .pagehead:first-child .pagehead__in { padding-top: calc(var(--nav-h) + cl
 .section__copy { max-width: 620px; }
 /* No estreito a arte quadrada tem os produtos no centro, entao o texto nao
    tem canto escuro para ocupar: o vulto fica quase chapado. */
+/* No celular a arte NAO fica atras do texto: ela vai inteira para o topo e o
+   texto vem abaixo, no fundo escuro solido. Assim nao existe sobreposicao
+   nenhuma e a arte aparece com a cor cheia, sem o vulto apagando. */
 @media (max-width: 899px) {
-  .section--art { --art-min: 78vw; }
-  .section__art { object-position: 50% 42%; }
-  .section--art::before {
-    background: linear-gradient(180deg,
-      rgba(17, 16, 19, .86) 0%,
-      rgba(17, 16, 19, .93) 38%,
-      rgba(17, 16, 19, .96) 100%);
+  .section--art { padding-top: 0; }
+  .section--art::before { display: none; }
+  .section__art {
+    position: static;
+    width: 100%; height: auto;
+    object-fit: contain;
   }
+  .section--art > .wrap { padding-top: clamp(28px, 6vw, 40px); }
 }
 
 /* lista com filete */
