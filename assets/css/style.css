@@ -1349,9 +1349,11 @@ main > .pagehead:first-child .pagehead__in { padding-top: calc(var(--nav-h) + cl
    dele: com o produto claro no centro, texto por cima ficava em 1,10:1. */
 .pagehead--banner::before { display: none; }
 @media (max-width: 899px) {
-  /* cancela a subida do hero para tras do header, senao o topo da arte fica
-     escondido pelo menu */
-  main > .pagehead--banner:first-child { margin-top: 0; }
+  /* O hero CONTINUA subindo para tras do header, senao nao ha nada escuro
+     atras dele e o menu volta ao branco solido. O padding empurra a arte para
+     comecar abaixo do menu, entao a faixa escura da secao preenche a altura do
+     header e o menu fica transparente sobre ela. */
+  main > .pagehead--banner:first-child { padding-top: var(--nav-h); }
   .pagehead--banner .pagehead__bg {
     position: static;
     width: 100%; height: auto;

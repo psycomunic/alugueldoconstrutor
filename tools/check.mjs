@@ -83,7 +83,7 @@ for (const file of files) {
     }
     const src = (tag.match(/\bsrc="([^"]+)"/) || [])[1];
     if (src && !/^https?:/.test(src)) {
-      const target = path.resolve(dir, src);
+      const target = path.resolve(dir, src.split('?')[0]);
       if (!fs.existsSync(target)) err(rel, `imagem inexistente: ${src}`);
     }
   }
@@ -104,7 +104,8 @@ for (const file of files) {
   const hrefs = [...html.matchAll(/\bhref="([^"]+)"/g)].map((m) => m[1]);
   for (const h of hrefs) {
     if (/^(https?:|mailto:|tel:|#|data:)/.test(h)) continue;
-    const [clean] = h.split('#');
+    // tira ancora E query: css e js levam ?v=<hash> para furar cache
+    const [clean] = h.split('#')[0].split('?');
     if (!clean) continue;
     const target = path.resolve(dir, clean);
     if (!fs.existsSync(target)) err(rel, `link quebrado: ${h}`);

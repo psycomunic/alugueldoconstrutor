@@ -164,6 +164,28 @@ def rel(path, depth):
     return ("../" * depth) + path
 
 
+# ---------------------------------------------------------------------------
+# Cache: assinatura curta do conteudo de CSS e JS.
+# Os dois tem nome fixo, e o navegador de quem ja visitou pode ficar com a
+# versao antiga. Anexar ?v=<hash> muda a URL quando o conteudo muda, entao o
+# navegador trata como recurso novo e baixa. Se o conteudo nao muda, a URL nao
+# muda e o cache continua valendo.
+_ASSINATURA = {}
+
+
+def v(caminho):
+    """<caminho>?v=abcdef12, a partir do hash do arquivo em disco."""
+    if caminho not in _ASSINATURA:
+        import hashlib
+        raiz = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        try:
+            with open(os.path.join(raiz, caminho), "rb") as fp:
+                _ASSINATURA[caminho] = hashlib.sha1(fp.read()).hexdigest()[:8]
+        except OSError:
+            _ASSINATURA[caminho] = "0"
+    return "%s?v=%s" % (caminho, _ASSINATURA[caminho])
+
+
 # ===========================================================================
 # 5. HEAD
 # ===========================================================================
@@ -222,7 +244,7 @@ def head(title, description, path, depth=0, image="assets/img/og-cover.jpg",
         "favicon": r("assets/img/favicon.svg"),
         "apple": r("assets/img/apple-touch-icon.png"),
         "manifest": r("manifest.webmanifest"),
-        "css": r("assets/css/style.css"),
+        "css": r(v("assets/css/style.css")),
         # Fontes auto-hospedadas: so o subset latin entra em preload, porque e o
         # que todo texto do site usa. O latin-ext fica declarado no CSS e so e
         # buscado se aparecer um glifo fora de U+0000-00FF.
@@ -497,5 +519,5 @@ def footer(depth=0):
         "ico_pin": icon("pin"), "ico_ph": icon("phone"), "ico_cl": icon("clock"),
         "tel": PHONE_TEL, "phone_d": PHONE_DISPLAY, "hours": HOURS_SHORT,
         "year": 2026, "legal": LEGAL, "cnpj": CNPJ,
-        "js": r("assets/js/main.js"),
+        "js": r(v("assets/js/main.js")),
     }
