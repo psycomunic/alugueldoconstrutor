@@ -123,6 +123,7 @@ for _u in UNIDADES:
 EQUIPAMENTOS = [
     {
         "slug": "andaimes",
+        "banner": True,
         "nome": "Andaimes",
         "singular": "andaime",
         "destaque": 1,
@@ -141,12 +142,6 @@ EQUIPAMENTOS = [
         # direita e o texto cai sobre a parte escura da estrutura.
         # liga o VIDEO_ANDAIME no corpo desta pagina
         "video": True,
-        "banner": {
-            "arquivo": "banner-andaimes-obra",
-            "espelhar": True,
-            "alt": ("Operário sobre plataforma de andaime tubular montado em obra, "
-                    "ao fim da tarde"),
-        },
         "intro": [
             "Andaime é o equipamento que decide se a obra vai render ou vai parar. "
             "Quando a estrutura chega completa, com sapata, travessa, diagonal e piso na "
@@ -211,6 +206,7 @@ EQUIPAMENTOS = [
     },
     {
         "slug": "betoneiras",
+        "banner": True,
         "nome": "Betoneiras",
         "singular": "betoneira",
         "destaque": 2,
@@ -278,6 +274,7 @@ EQUIPAMENTOS = [
     },
     {
         "slug": "marteletes",
+        "banner": True,
         "nome": "Marteletes",
         "singular": "martelete",
         "destaque": 3,
@@ -347,6 +344,7 @@ EQUIPAMENTOS = [
     },
     {
         "slug": "compactadores",
+        "banner": True,
         "nome": "Compactadores",
         "singular": "compactador",
         "resumo": "Sapo e placa vibratória para compactar solo, base e reaterro antes de concretar.",
@@ -407,6 +405,7 @@ EQUIPAMENTOS = [
     },
     {
         "slug": "cortadores-de-piso",
+        "banner": True,
         "nome": "Cortadores de piso",
         "singular": "cortador de piso",
         "resumo": "Corte reto e limpo em cerâmica, porcelanato e concreto, sem quebrar a peça.",
@@ -467,6 +466,7 @@ EQUIPAMENTOS = [
     },
     {
         "slug": "escoras",
+        "banner": True,
         "nome": "Escoras",
         "singular": "escora",
         "resumo": "Escoramento metálico regulável para laje, viga e forma, com altura ajustável.",
@@ -526,6 +526,7 @@ EQUIPAMENTOS = [
     },
     {
         "slug": "furadeiras-e-parafusadeiras",
+        "banner": True,
         "nome": "Furadeiras e parafusadeiras",
         "singular": "furadeira",
         "resumo": "Furadeira de impacto e parafusadeira a bateria para fixação, montagem e instalação.",
@@ -583,6 +584,7 @@ EQUIPAMENTOS = [
     },
     {
         "slug": "lixadeiras-e-esmerilhadeiras",
+        "banner": True,
         "nome": "Lixadeiras e esmerilhadeiras",
         "singular": "lixadeira",
         "resumo": "Acabamento em parede, corte em metal e desbaste de concreto com disco adequado.",
@@ -644,6 +646,7 @@ EQUIPAMENTOS = [
     },
     {
         "slug": "serras-e-plainas",
+        "banner": True,
         "nome": "Serras e plainas",
         "singular": "serra",
         "resumo": "Serra circular, tico-tico e plaina para corte e acabamento em madeira e forma.",
@@ -703,6 +706,7 @@ EQUIPAMENTOS = [
     },
     {
         "slug": "escadas",
+        "banner": True,
         "nome": "Escadas",
         "singular": "escada",
         "resumo": "Escadas de alumínio e extensíveis para acesso seguro em manutenção e instalação.",
@@ -764,6 +768,7 @@ EQUIPAMENTOS = [
     },
     {
         "slug": "lavadoras-de-alta-pressao",
+        "banner": True,
         "nome": "Lavadoras de alta pressão",
         "singular": "lavadora de alta pressão",
         "resumo": "Limpeza pesada de fachada, piso e calçada, com jato que tira o que a vassoura não tira.",
@@ -823,6 +828,7 @@ EQUIPAMENTOS = [
     },
     {
         "slug": "lavadoras-de-estofado",
+        "banner": True,
         "nome": "Lavadoras de estofado",
         "singular": "lavadora de estofado",
         "resumo": "Extratora para sofá, colchão, cadeira e carpete, com injeção e sucção.",
@@ -879,6 +885,7 @@ EQUIPAMENTOS = [
     },
     {
         "slug": "motosserras-e-rocadeiras",
+        "banner": True,
         "nome": "Motosserras e roçadeiras",
         "singular": "motosserra",
         "resumo": "Poda, corte de árvore e limpeza de terreno com equipamento revisado e afiado.",
@@ -939,6 +946,7 @@ EQUIPAMENTOS = [
     },
     {
         "slug": "sopradores-e-aspiradores",
+        "banner": True,
         "nome": "Sopradores e aspiradores",
         "singular": "soprador",
         "resumo": "Limpeza de pós-obra, remoção de entulho fino e organização rápida do canteiro.",
@@ -995,6 +1003,7 @@ EQUIPAMENTOS = [
     },
     {
         "slug": "bombas-sapo",
+        "banner": True,
         "nome": "Bombas sapo",
         "singular": "bomba sapo",
         "resumo": "Bomba submersível para esgotar vala, poço, fosso de elevador e alagamento.",

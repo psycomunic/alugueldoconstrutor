@@ -267,9 +267,9 @@ def page_index():
      por isso <picture> com media e nao srcset. -->
 <section class="section section--dark section--art">
   <picture>
-    <source media="(min-width: 900px)" srcset="assets/img/linha-completa-desktop.webp"
+    <source media="(min-width: 900px)" srcset="assets/img/banners/linha-completa-desktop.webp"
             width="1600" height="650">
-    <img class="section__art" src="assets/img/linha-completa-mobile.webp"
+    <img class="section__art" src="assets/img/banners/linha-completa-mobile.webp"
          width="1200" height="1200" loading="lazy" decoding="async"
          alt="Compactador, lavadora de alta pressão, motosserra, serra circular e parafusadeira da linha alugada">
   </picture>
@@ -642,13 +642,17 @@ def page_equipamento(e):
     # nao tem continua com a foto quadrada do produto ao lado do texto.
     banner = e.get("banner")
     if banner:
-        _b = lambda suf: r("assets/img/%s%s.webp" % (banner["arquivo"], suf), depth)
-        flip = " pagehead__bg--flip" if banner.get("espelhar") else ""
-        bg = ('\n  <img class="pagehead__bg' + flip + '" src="%s"\n'
-              '       srcset="%s 980w, %s 1957w"\n'
-              '       sizes="100vw" width="1957" height="775"\n'
-              '       fetchpriority="high" decoding="async" alt="%s">'
-              % (_b(""), _b("-980"), _b(""), banner["alt"]))
+        # Par de artes por categoria em assets/img/banners/<slug>-desktop.webp
+        # (1600x650) e <slug>-mobile.webp (1200x1200). Sao enquadramentos
+        # diferentes, nao so tamanhos, entao <picture> com media e nao srcset.
+        _desk = r("assets/img/banners/%s-desktop.webp" % e["slug"], depth)
+        _mob = r("assets/img/banners/%s-mobile.webp" % e["slug"], depth)
+        _alt = "%s para locação no Rio de Janeiro" % e["nome"]
+        bg = ('\n  <picture>\n'
+              '    <source media="(min-width: 900px)" srcset="%s" width="1600" height="650">\n'
+              '    <img class="pagehead__bg" src="%s" width="1200" height="1200"\n'
+              '         fetchpriority="high" decoding="async" alt="%s">\n'
+              '  </picture>' % (_desk, _mob, _alt))
         head_cls = " pagehead--banner"
         abre = '<div class="pagehead__copy mt-6">'
         # Em tela pequena o banner fica atras E a foto do produto aparece
@@ -665,7 +669,7 @@ def page_equipamento(e):
                     r("assets/img/equipamentos/%s-380.webp" % e["slug"], depth),
                     r("assets/img/equipamentos/%s.webp" % e["slug"], depth),
                     "%s disponíveis para locação no Rio de Janeiro" % e["nome"]))
-        preload = "assets/img/%s.webp" % banner["arquivo"]
+        preload = "assets/img/banners/%s-mobile.webp" % e["slug"]
     else:
         bg = ""
         head_cls = ""
