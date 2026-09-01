@@ -63,15 +63,23 @@ AREAS = [
 # 2. DOMINIO
 # ===========================================================================
 # og:image, og:url, canonical e o sitemap precisam de URL absoluta que exista
-# de verdade. Resolve nesta ordem:
-#   1. SITE_URL          (defina na mao quando quiser forcar)
-#   2. VERCEL_PROJECT_PRODUCTION_URL (a Vercel injeta no build)
-#   3. SITE_FINAL        (o dominio proprio)
+# de verdade E que seja o dominio publico. O WhatsApp, o Facebook e o Google
+# leem essas tags: se apontarem para o *.vercel.app o preview sai com o
+# dominio errado. Resolve nesta ordem:
+#   1. SITE_URL   (defina na mao quando quiser forcar)
+#   2. VERCEL_URL (so em deploy de preview, para ele apontar para si mesmo)
+#   3. SITE_FINAL (o dominio proprio - producao e build local)
 SITE_FINAL = "https://alugueldoconstrutor.com"
-_v = os.environ.get("VERCEL_PROJECT_PRODUCTION_URL", "").strip()
-SITE = (os.environ.get("SITE_URL", "").strip()
-        or (("https://" + _v) if _v else "")
-        or SITE_FINAL).rstrip("/")
+_forcado = os.environ.get("SITE_URL", "").strip()
+_ambiente = os.environ.get("VERCEL_ENV", "").strip()
+_deploy = os.environ.get("VERCEL_URL", "").strip()
+if _forcado:
+    SITE = _forcado
+elif _ambiente and _ambiente != "production" and _deploy:
+    SITE = "https://" + _deploy
+else:
+    SITE = SITE_FINAL
+SITE = SITE.rstrip("/")
 
 
 def url(path):
@@ -218,6 +226,8 @@ def head(title, description, path, depth=0, image="assets/img/og-cover.jpg",
   <meta property="og:description" content="%(description)s">
   <meta property="og:url" content="%(canonical)s">
   <meta property="og:image" content="%(og_image)s">
+  <meta property="og:image:secure_url" content="%(og_image)s">
+  <meta property="og:image:type" content="image/jpeg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Caminhão do Aluguel do Construtor carregado com andaimes">
@@ -225,6 +235,7 @@ def head(title, description, path, depth=0, image="assets/img/og-cover.jpg",
   <meta name="twitter:title" content="%(title)s">
   <meta name="twitter:description" content="%(description)s">
   <meta name="twitter:image" content="%(og_image)s">
+  <meta name="twitter:image:alt" content="Caminhão do Aluguel do Construtor carregado com andaimes">
 
   <link rel="icon" href="%(favicon)s" type="image/svg+xml">
   <link rel="apple-touch-icon" href="%(apple)s">
