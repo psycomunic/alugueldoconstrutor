@@ -126,16 +126,6 @@ def pontos_block(depth):
     """
     if not PONTOS:
         return ''
-    # Rotulo curto: sem ele os cards sem endereco parecem unidade quebrada.
-    # O texto so repete o que o cliente informou, que a operacao fica dentro
-    # de lojas de material de construcao.
-    cabecalho = (
-        '<div class="sec-head center mt-12">'
-        '<p class="eyebrow">Também estamos aqui</p>'
-        '<h2>Dentro de lojas de material de construção</h2>'
-        '<p class="lead">Nestes pontos você encontra o nosso balcão de locação '
-        'dentro da loja. Para endereço e disponibilidade, chame no WhatsApp.</p>'
-        '</div>')
     cards = []
     for x in PONTOS:
         cards.append(
@@ -149,7 +139,7 @@ def pontos_block(depth):
                r('assets/img/unidades/%s-600.webp' % x['foto'], depth),
                r('assets/img/unidades/%s.webp' % x['foto'], depth),
                x['foto_alt'], x['nome']))
-    return cabecalho + '<div class="units mt-6">%s</div>' % "".join(cards)
+    return '<div class="units mt-6">%s</div>' % "".join(cards)
 
 
 def quotes_block():
