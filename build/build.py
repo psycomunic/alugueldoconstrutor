@@ -84,7 +84,19 @@ def unit_cards(depth, exclude=None):
     for u in UNIDADES:
         if exclude and u["slug"] == exclude:
             continue
-        out.append("""<article class="unit">
+        foto = ""
+        if u.get("foto"):
+            # sangra ate a borda do card pelo CSS; a variante de 600px cobre
+            # o card, que renderiza por volta de 285 a 380px de largura
+            foto = ('<img class="unit__foto" src="%s" srcset="%s 600w, %s 1200w"\n'
+                    '           sizes="(min-width: 900px) 30vw, 92vw"\n'
+                    '           width="1200" height="900" loading="lazy" decoding="async" alt="%s">'
+                    % (r("assets/img/unidades/%s-600.webp" % u["foto"], depth),
+                       r("assets/img/unidades/%s-600.webp" % u["foto"], depth),
+                       r("assets/img/unidades/%s.webp" % u["foto"], depth),
+                       u.get("foto_alt", "Fachada da unidade %s" % u["nome"])))
+        out.append("""<article class="unit%(cls)s">
+      %(foto)s
       <span class="unit__k">%(k)s</span>
       <h3>%(nome)s</h3>
       <div class="unit__meta">
@@ -96,6 +108,7 @@ def unit_cards(depth, exclude=None):
         <a class="link-arrow" href="%(href)s">Ver a unidade %(arrow)s</a>
       </div>
     </article>""" % {
+            "cls": " unit--foto" if u.get("foto") else "", "foto": foto,
             "k": "Matriz" if u.get("matriz") else "Unidade",
             "nome": u["nome"], "rua": u["rua"], "bairro": u["bairro"],
             "hours": P.HOURS_SHORT, "wa": u["wa"], "wa_d": u["wa_display"],
@@ -937,6 +950,7 @@ def page_unidade(u):
       <p><strong>%(rua)s</strong><br>%(bairro)s, Rio de Janeiro &ndash; RJ</p>
       <p>%(hours_long)s</p>
       <p>WhatsApp da unidade: <a href="%(wa)s" target="_blank" rel="noopener">%(wa_d)s</a></p>
+      %(figura)s
 
       <h2>Bairros atendidos por esta unidade</h2>
       <ul>%(atende)s</ul>
@@ -985,6 +999,15 @@ def page_unidade(u):
 """ % {
         "crumbs": P.crumbs(trail, depth),
         "kind": "Matriz" if u.get("matriz") else "Unidade",
+        # figura so aparece na unidade que ja tem foto confirmada
+        "figura": ('<figure class="figure mt-6"><img src="%s" srcset="%s 600w, %s 1200w"\n'
+                   '           sizes="(min-width: 980px) 60vw, 92vw" width="1200" height="900"\n'
+                   '           loading="lazy" decoding="async" alt="%s"></figure>'
+                   % (r("assets/img/unidades/%s.webp" % u["foto"], depth),
+                      r("assets/img/unidades/%s-600.webp" % u["foto"], depth),
+                      r("assets/img/unidades/%s.webp" % u["foto"], depth),
+                      u.get("foto_alt", "Fachada da unidade %s" % u["nome"]))
+                   ) if u.get("foto") else "",
         "bairro": u["bairro"], "sobre": u["sobre"], "rua": u["rua"],
         "hours_long": P.HOURS_LONG, "wa": wa, "wa_d": u["wa_display"],
         "maps": P.maps_link(u["endereco"]),

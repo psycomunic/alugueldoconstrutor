@@ -8,3 +8,6 @@ __pycache__/
 
 # Arte de origem dos banners: PNG pesado, o site usa os WebP de assets/img/banners
 assets/img/BANNERS PRODUTOS/
+
+# Fotos originais das unidades: JPEG pesado, o site usa os WebP de assets/img/unidades
+assets/img/unidades/_fonte/

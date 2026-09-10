@@ -49,6 +49,8 @@ UNIDADES = [
     },
     {
         "slug": "vargem-grande",
+        "foto": "vargem-grande",
+        "foto_alt": ("Fachada da loja Pardal Materiais de Construção em Vargem Grande, com os telefones de locação de equipamentos na placa"),
         "seo_title": "Aluguel de Equipamentos em Vargem Grande, Rio de Janeiro",
         "seo_desc": "Locação de andaimes, betoneiras e marteletes em Vargem Grande, RJ. Entrega na obra e orçamento no WhatsApp (21) 99696-0114.",
         "nome": "Vargem Grande",
@@ -67,6 +69,8 @@ UNIDADES = [
     },
     {
         "slug": "pedra-de-guaratiba",
+        "foto": "pedra-de-guaratiba",
+        "foto_alt": ("Fachada da loja Mineiro Uai Materiais de Construção, na Estrada da Matriz, em Pedra de Guaratiba"),
         "seo_title": "Aluguel de Equipamentos em Pedra de Guaratiba, RJ",
         "seo_desc": "Locação de equipamentos para construção em Pedra de Guaratiba e Zona Oeste, RJ. Entrega na obra e orçamento no WhatsApp (21) 99720-0114.",
         "nome": "Pedra de Guaratiba",
@@ -85,6 +89,8 @@ UNIDADES = [
     },
     {
         "slug": "botafogo",
+        "foto": "botafogo",
+        "foto_alt": ("Fachada da loja Pardal Materiais de Construção, em Botafogo, com a faixa de aluguel de equipamentos na vitrine"),
         "seo_title": "Aluguel de Equipamentos em Botafogo, Zona Sul do Rio",
         "seo_desc": "Locação de andaimes, betoneiras e ferramentas em Botafogo e Zona Sul do Rio. Entrega na obra e orçamento no WhatsApp (21) 97156-9700.",
         "nome": "Botafogo",

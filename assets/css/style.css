@@ -1692,3 +1692,18 @@ main > .pagehead:first-child .pagehead__in { padding-top: calc(var(--nav-h) + cl
   backdrop-filter: blur(3px);
   -webkit-backdrop-filter: blur(3px);
 }
+
+/* ------------------------------------------------- foto da unidade no card
+   Sangra ate a borda do card usando margem negativa do padding proprio dele
+   (24px no topo, 22px nas laterais), sem precisar reestruturar o markup. */
+.unit--foto { padding-top: 0; overflow: hidden; }
+.unit__foto {
+  width: calc(100% + 44px);
+  margin: 0 -22px 4px;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  display: block;
+  background: var(--paper);
+  transition: transform var(--t-slow) var(--e-out);
+}
+.unit--foto:hover .unit__foto { transform: scale(1.04); }
