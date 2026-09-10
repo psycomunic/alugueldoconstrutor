@@ -114,6 +114,34 @@ for _u in UNIDADES:
     _u["endereco"] = "%s - %s, Rio de Janeiro - RJ" % (_u["rua"], _u["bairro"])
 
 # ===========================================================================
+# PONTOS COM FOTO, SEM ENDERECO CONFIRMADO
+# ===========================================================================
+# Lojas onde o Aluguel do Construtor esta, mas cujo endereco completo ainda
+# nao foi confirmado. Por isso entram SO com foto e nome: nao viram pagina
+# propria, nao entram no JSON-LD e nao contam como "unidade" no texto do site,
+# que segue falando em cinco. Assim que houver endereco e WhatsApp, o ponto
+# pode virar uma entrada completa em UNIDADES.
+PONTOS = [
+    {
+        "nome": "Recreio Terreirão",
+        "foto": "recreio-terreirao",
+        "foto_alt": ("Fachada da loja Pardal Materiais de Construção no Terreirão, "
+                     "com faixa de aluguel de equipamentos"),
+    },
+    {
+        "nome": "Le Gusta Shopping",
+        "foto": "legusta-shopping",
+        "foto_alt": ("Fachada da loja Pardal Materiais de Construção "
+                     "no Le Gusta Shopping"),
+    },
+    {
+        "nome": "Rede Construir Tijuca",
+        "foto": "rede-construir-tijuca",
+        "foto_alt": "Fachada da loja Rede Construir, na Tijuca",
+    },
+]
+
+# ===========================================================================
 # EQUIPAMENTOS
 # ===========================================================================
 # Campos:

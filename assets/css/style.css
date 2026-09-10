@@ -1707,3 +1707,9 @@ main > .pagehead:first-child .pagehead__in { padding-top: calc(var(--nav-h) + cl
   transition: transform var(--t-slow) var(--e-out);
 }
 .unit--foto:hover .unit__foto { transform: scale(1.04); }
+
+/* ------------------------------------------- ponto so com foto e nome
+   Loja onde estamos, mas sem endereco confirmado: o card mostra so a foto e
+   o nome, sem os campos de endereco, horario e WhatsApp que as unidades tem. */
+.unit--simples { gap: 0; }
+.unit--simples h3 { margin: 14px 0 2px; font-size: 1.04rem; }

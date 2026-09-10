@@ -18,7 +18,7 @@ import partials as P            # noqa: E402
 import schema as S              # noqa: E402
 from content import (           # noqa: E402
     EQUIPAMENTOS, DESTAQUES, UNIDADES, DEPOIMENTOS, PAGAMENTOS,
-    FAQ_GERAL, DIFERENCIAIS, VIDEO_ANDAIME, relacionados,
+    FAQ_GERAL, DIFERENCIAIS, VIDEO_ANDAIME, PONTOS, relacionados,
 )
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -116,6 +116,40 @@ def unit_cards(depth, exclude=None):
             "href": r("unidades/%s.html" % u["slug"], depth), "arrow": ICO("arrow"),
         })
     return '<div class="units">%s</div>' % "".join(out)
+
+
+def pontos_block(depth):
+    """Lojas com foto mas sem endereco confirmado: so foto e nome.
+
+    Nao viram pagina nem entram no JSON-LD, e nao contam como unidade no
+    texto do site. Devolve vazio se a lista estiver vazia.
+    """
+    if not PONTOS:
+        return ''
+    # Rotulo curto: sem ele os cards sem endereco parecem unidade quebrada.
+    # O texto so repete o que o cliente informou, que a operacao fica dentro
+    # de lojas de material de construcao.
+    cabecalho = (
+        '<div class="sec-head center mt-12">'
+        '<p class="eyebrow">Também estamos aqui</p>'
+        '<h2>Dentro de lojas de material de construção</h2>'
+        '<p class="lead">Nestes pontos você encontra o nosso balcão de locação '
+        'dentro da loja. Para endereço e disponibilidade, chame no WhatsApp.</p>'
+        '</div>')
+    cards = []
+    for x in PONTOS:
+        cards.append(
+            '<article class="unit unit--foto unit--simples">\n'
+            '  <img class="unit__foto" src="%s" srcset="%s 600w, %s 1200w"\n'
+            '       sizes="(min-width: 900px) 30vw, 92vw" width="1200" height="900"\n'
+            '       loading="lazy" decoding="async" alt="%s">\n'
+            '  <h3>%s</h3>\n'
+            '</article>'
+            % (r('assets/img/unidades/%s-600.webp' % x['foto'], depth),
+               r('assets/img/unidades/%s-600.webp' % x['foto'], depth),
+               r('assets/img/unidades/%s.webp' % x['foto'], depth),
+               x['foto_alt'], x['nome']))
+    return cabecalho + '<div class="units mt-6">%s</div>' % "".join(cards)
 
 
 def quotes_block():
@@ -863,6 +897,7 @@ def page_unidades():
 <section class="section section--paper">
   <div class="wrap">
     %(units)s
+    %(pontos)s
   </div>
 </section>
 
@@ -895,7 +930,7 @@ def page_unidades():
 %(faq)s
 </main>
 """ % {
-        "crumbs": P.crumbs(trail, 0), "units": unit_cards(0),
+        "crumbs": P.crumbs(trail, 0), "units": unit_cards(0), "pontos": pontos_block(0),
         "faq": faq_block([FAQ_GERAL[3], FAQ_GERAL[7], FAQ_GERAL[5]], "Dúvidas sobre atendimento e entrega"),
     }
 
