@@ -18,7 +18,7 @@ import partials as P            # noqa: E402
 import schema as S              # noqa: E402
 from content import (           # noqa: E402
     EQUIPAMENTOS, DESTAQUES, UNIDADES, DEPOIMENTOS, PAGAMENTOS,
-    FAQ_GERAL, DIFERENCIAIS, VIDEO_ANDAIME, PONTOS, relacionados,
+    FAQ_GERAL, DIFERENCIAIS, VIDEO_ANDAIME, relacionados,
 )
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -100,7 +100,7 @@ def unit_cards(depth, exclude=None):
       <span class="unit__k">%(k)s</span>
       <h3>%(nome)s</h3>
       <div class="unit__meta">
-        <div>%(ico_pin)s <span>%(rua)s<br>%(bairro)s, Rio de Janeiro &ndash; RJ</span></div>
+        %(linha_end)s
         <div>%(ico_cl)s <span>%(hours)s</span></div>
         <div>%(ico_wa)s <a href="https://wa.me/%(wa)s" target="_blank" rel="noopener">%(wa_d)s</a></div>
       </div>
@@ -110,36 +110,17 @@ def unit_cards(depth, exclude=None):
     </article>""" % {
             "cls": " unit--foto" if u.get("foto") else "", "foto": foto,
             "k": "Matriz" if u.get("matriz") else "Unidade",
+            "linha_end": (
+                '<div>%s <span>%s<br>%s, Rio de Janeiro &ndash; RJ</span></div>'
+                % (ICO("pin"), u["rua"], u["bairro"])) if u["rua"] else (
+                '<div>%s <span>%s, Rio de Janeiro &ndash; RJ</span></div>'
+                % (ICO("pin"), u["bairro"])),
             "nome": u["nome"], "rua": u["rua"], "bairro": u["bairro"],
             "hours": P.HOURS_SHORT, "wa": u["wa"], "wa_d": u["wa_display"],
             "ico_pin": ICO("pin"), "ico_cl": ICO("clock"), "ico_wa": ICO("whatsapp"),
             "href": r("unidades/%s.html" % u["slug"], depth), "arrow": ICO("arrow"),
         })
     return '<div class="units">%s</div>' % "".join(out)
-
-
-def pontos_block(depth):
-    """Lojas com foto mas sem endereco confirmado: so foto e nome.
-
-    Nao viram pagina nem entram no JSON-LD, e nao contam como unidade no
-    texto do site. Devolve vazio se a lista estiver vazia.
-    """
-    if not PONTOS:
-        return ''
-    cards = []
-    for x in PONTOS:
-        cards.append(
-            '<article class="unit unit--foto unit--simples">\n'
-            '  <img class="unit__foto" src="%s" srcset="%s 600w, %s 1200w"\n'
-            '       sizes="(min-width: 900px) 30vw, 92vw" width="1200" height="900"\n'
-            '       loading="lazy" decoding="async" alt="%s">\n'
-            '  <h3>%s</h3>\n'
-            '</article>'
-            % (r('assets/img/unidades/%s-600.webp' % x['foto'], depth),
-               r('assets/img/unidades/%s-600.webp' % x['foto'], depth),
-               r('assets/img/unidades/%s.webp' % x['foto'], depth),
-               x['foto_alt'], x['nome']))
-    return '<div class="units mt-6">%s</div>' % "".join(cards)
 
 
 def quotes_block():
@@ -887,7 +868,6 @@ def page_unidades():
 <section class="section section--paper">
   <div class="wrap">
     %(units)s
-    %(pontos)s
   </div>
 </section>
 
@@ -920,7 +900,7 @@ def page_unidades():
 %(faq)s
 </main>
 """ % {
-        "crumbs": P.crumbs(trail, 0), "units": unit_cards(0), "pontos": pontos_block(0),
+        "crumbs": P.crumbs(trail, 0), "units": unit_cards(0),
         "faq": faq_block([FAQ_GERAL[3], FAQ_GERAL[7], FAQ_GERAL[5]], "Dúvidas sobre atendimento e entrega"),
     }
 
@@ -972,7 +952,7 @@ def page_unidade(u):
   <div class="wrap eqlayout">
     <div class="prose">
       <h2>Endereço e horário</h2>
-      <p><strong>%(rua)s</strong><br>%(bairro)s, Rio de Janeiro &ndash; RJ</p>
+      %(bloco_end)s
       <p>%(hours_long)s</p>
       <p>WhatsApp da unidade: <a href="%(wa)s" target="_blank" rel="noopener">%(wa_d)s</a></p>
       %(figura)s
@@ -1033,6 +1013,12 @@ def page_unidade(u):
                       r("assets/img/unidades/%s.webp" % u["foto"], depth),
                       u.get("foto_alt", "Fachada da unidade %s" % u["nome"]))
                    ) if u.get("foto") else "",
+        "bloco_end": (
+            '<p><strong>%s</strong><br>%s, Rio de Janeiro &ndash; RJ</p>'
+            % (u["rua"], u["bairro"])) if u["rua"] else (
+            '<p><strong>%s, Rio de Janeiro &ndash; RJ</strong></p>'
+            '<p class="form__note">Endereço completo em confirmação. Chame no WhatsApp que passamos o ponto exato.</p>'
+            % u["bairro"]),
         "bairro": u["bairro"], "sobre": u["sobre"], "rua": u["rua"],
         "hours_long": P.HOURS_LONG, "wa": wa, "wa_d": u["wa_display"],
         "maps": P.maps_link(u["endereco"]),

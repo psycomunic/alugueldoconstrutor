@@ -12,40 +12,51 @@ do estoque do dia, o texto manda a pessoa falar no WhatsApp.
 # ===========================================================================
 # Fonte: pagina /unidades/ do site atual. Confirmar CEP e coordenadas.
 UNIDADES = [
+    # Fonte: stories do perfil oficial no Instagram. Sao CINCO unidades:
+    # Recreio, Barra da Tijuca, Vargem Grande, Pedra de Guaratiba e Botafogo.
+    # O site antigo trazia DUAS no Recreio; a segunda, com o WhatsApp
+    # 99529-1741, aparece na story mais antiga rotulada como BARRA DA TIJUCA.
+    # O telefone foi o identificador que acertou nas tres fotos de fachada,
+    # entao vale como prova aqui tambem: era a unidade da Barra, com rotulo
+    # errado herdado do WordPress.
     {
         "slug": "recreio-dos-bandeirantes",
         "seo_title": "Aluguel de Equipamentos no Recreio dos Bandeirantes",
-        "seo_desc": "Locação de andaimes, betoneiras e marteletes no Recreio dos Bandeirantes, RJ. Entrega na obra e orçamento no WhatsApp (21) 99529-1741.",
+        "seo_desc": "Locação de andaimes, betoneiras e marteletes no Recreio dos Bandeirantes, RJ. Entrega na obra e orçamento no WhatsApp (21) 97277-0014.",
         "nome": "Recreio dos Bandeirantes",
         "bairro": "Recreio dos Bandeirantes",
-        "titulo_curto": "Recreio (Luiza Nogueira)",
-        "rua": "Rua Professora Luiza Nogueira Gonçalves, 350",
-        "wa": "5521995291741",
-        "wa_display": "(21) 99529-1741",
-        "matriz": True,
-        "atende": ["Recreio dos Bandeirantes", "Barra da Tijuca", "Barra Olímpica",
-                   "Vargem Pequena", "Itanhangá", "Joá", "Grumari", "São Conrado"],
-        "sobre": ("É a unidade de referência da rede no Recreio dos Bandeirantes e a base "
-                  "de boa parte das entregas na Barra da Tijuca. Fica em via de fácil acesso "
-                  "para caminhão, o que encurta o tempo entre o pedido e a chegada do "
-                  "equipamento na obra."),
-    },
-    {
-        "slug": "recreio-leon-eliachar",
-        "seo_title": "Aluguel de Equipamentos no Recreio | Léon Eliachar",
-        "seo_desc": "Locação de equipamentos para obra na Rua Léon Eliachar, Recreio dos Bandeirantes, RJ. Entrega rápida e orçamento no WhatsApp (21) 97277-0014.",
-        "nome": "Recreio dos Bandeirantes (Léon Eliachar)",
-        "bairro": "Recreio (Léon Eliachar)",
-        "titulo_curto": "Recreio (Léon Eliachar)",
+        "titulo_curto": "Recreio",
         "rua": "Rua Léon Eliachar, 14",
         "wa": "5521972770014",
         "wa_display": "(21) 97277-0014",
+        "matriz": True,
+        "atende": ["Recreio dos Bandeirantes", "Barra Olímpica", "Vargem Pequena",
+                   "Itanhangá", "Joá", "Grumari", "São Conrado"],
+        "sobre": ("É a unidade de referência da rede no Recreio dos Bandeirantes. "
+                  "Fica em via de fácil acesso para caminhão, o que encurta o tempo "
+                  "entre o pedido e a chegada do equipamento na obra."),
+    },
+    {
+        "slug": "barra-da-tijuca",
+        "seo_title": "Aluguel de Equipamentos na Barra da Tijuca",
+        "seo_desc": "Locação de andaimes, betoneiras e marteletes na Barra da Tijuca, RJ. Entrega na obra e orçamento no WhatsApp (21) 98961-0777.",
+        "nome": "Barra da Tijuca",
+        "bairro": "Barra da Tijuca",
+        "titulo_curto": "Barra da Tijuca",
+        # Endereco pendente de confirmacao. A hipotese e a Rua Professora Luiza
+        # Nogueira Goncalves, 350, que o site trazia nesta unidade, mas os
+        # Correios situam essa rua no Recreio, nao na Barra. Enquanto nao
+        # confirmarem, a unidade aparece sem endereco: card, pagina e JSON-LD
+        # se adaptam sozinhos.
+        "rua": "",
+        "wa": "5521989610777",
+        "wa_display": "(21) 98961-0777",
         "matriz": False,
-        "atende": ["Recreio dos Bandeirantes", "Barra da Tijuca", "Barra Olímpica",
-                   "Vargem Pequena", "Itanhangá", "Joá", "Grumari", "São Conrado"],
-        "sobre": ("Segunda unidade no Recreio, montada para dar vazão à demanda do bairro "
-                  "sem fila de espera. Atende quem está tocando reforma de apartamento, "
-                  "condomínio e obra de pequeno e médio porte na região."),
+        "atende": ["Barra da Tijuca", "Barra Olímpica", "Itanhangá", "Joá",
+                   "São Conrado", "Recreio dos Bandeirantes"],
+        "sobre": ("Atende a Barra da Tijuca e o entorno, de reforma de apartamento "
+                  "a obra comercial. Fale no WhatsApp que confirmamos disponibilidade "
+                  "e o prazo de entrega no seu endereço."),
     },
     {
         "slug": "vargem-grande",
@@ -111,35 +122,8 @@ UNIDADES = [
 ]
 
 for _u in UNIDADES:
-    _u["endereco"] = "%s - %s, Rio de Janeiro - RJ" % (_u["rua"], _u["bairro"])
-
-# ===========================================================================
-# PONTOS COM FOTO, SEM ENDERECO CONFIRMADO
-# ===========================================================================
-# Lojas onde o Aluguel do Construtor esta, mas cujo endereco completo ainda
-# nao foi confirmado. Por isso entram SO com foto e nome: nao viram pagina
-# propria, nao entram no JSON-LD e nao contam como "unidade" no texto do site,
-# que segue falando em cinco. Assim que houver endereco e WhatsApp, o ponto
-# pode virar uma entrada completa em UNIDADES.
-PONTOS = [
-    {
-        "nome": "Recreio Terreirão",
-        "foto": "recreio-terreirao",
-        "foto_alt": ("Fachada da loja Pardal Materiais de Construção no Terreirão, "
-                     "com faixa de aluguel de equipamentos"),
-    },
-    {
-        "nome": "Le Gusta Shopping",
-        "foto": "legusta-shopping",
-        "foto_alt": ("Fachada da loja Pardal Materiais de Construção "
-                     "no Le Gusta Shopping"),
-    },
-    {
-        "nome": "Rede Construir Tijuca",
-        "foto": "rede-construir-tijuca",
-        "foto_alt": "Fachada da loja Rede Construir, na Tijuca",
-    },
-]
+    # unidade sem rua confirmada entra so com bairro e cidade
+    _u["endereco"] = (("%s - " % _u["rua"]) if _u["rua"] else "") +         "%s, Rio de Janeiro - RJ" % _u["bairro"]
 
 # ===========================================================================
 # EQUIPAMENTOS

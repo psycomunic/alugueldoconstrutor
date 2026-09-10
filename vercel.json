@@ -39,6 +39,7 @@
     }
   ],
   "redirects": [
+    { "source": "/unidades/recreio-leon-eliachar", "destination": "/unidades/recreio-dos-bandeirantes", "permanent": true },
     { "source": "/nossos-produtos", "destination": "/equipamentos", "permanent": true },
     { "source": "/produtos", "destination": "/equipamentos", "permanent": true },
     { "source": "/quem-somos/", "destination": "/quem-somos", "permanent": true },

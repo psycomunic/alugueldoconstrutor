@@ -52,7 +52,9 @@ def organization():
         "telephone": P.PHONE_TEL,
         "address": {
             "@type": "PostalAddress",
-            "streetAddress": UNIDADES[0]["rua"],
+            # a matriz manda, nao a primeira da lista: se a ordem mudar,
+            # o endereco principal continua certo
+            "streetAddress": _matriz()["rua"],
             "addressLocality": P.CITY,
             "addressRegion": P.STATE,
             "addressCountry": P.COUNTRY,
@@ -73,6 +75,14 @@ def organization():
                        "equipamentos para construção civil"],
         "department": [{"@id": _unit_id(u)} for u in UNIDADES],
     }
+
+
+def _matriz():
+    """A unidade marcada como matriz, com a primeira como reserva."""
+    for u in UNIDADES:
+        if u.get("matriz"):
+            return u
+    return UNIDADES[0]
 
 
 def _hours():
@@ -158,7 +168,7 @@ def unidade(u, full=True):
         "telephone": "+" + u["wa"],
         "address": {
             "@type": "PostalAddress",
-            "streetAddress": u["rua"],
+            **({"streetAddress": u["rua"]} if u["rua"] else {}),
             "addressLocality": P.CITY,
             "addressRegion": P.STATE,
             "addressCountry": P.COUNTRY,
