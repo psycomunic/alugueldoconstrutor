@@ -38,6 +38,8 @@ UNIDADES = [
     },
     {
         "slug": "barra-da-tijuca",
+        "foto": "rede-construir-tijuca",
+        "foto_alt": ("Fachada da loja Rede Construir onde funciona a unidade da Barra da Tijuca"),
         "seo_title": "Aluguel de Equipamentos na Barra da Tijuca",
         "seo_desc": "Locação de andaimes, betoneiras e marteletes na Barra da Tijuca, RJ. Entrega na obra e orçamento no WhatsApp (21) 98961-0777.",
         "nome": "Barra da Tijuca",
