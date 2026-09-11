@@ -82,11 +82,16 @@ GOOGLE_ADS_CONVERSAO_GERAL = "2PT5CJrjwtAbEMnq2rMp"   # "Clique no Whatsapp"
 # sai do proprio numero no link, porque cada unidade tem um numero unico, entao
 # nao precisa marcar nada no HTML.
 GOOGLE_ADS_CONVERSOES = {
-    # "5521972770014": "",   # Recreio dos Bandeirantes (e o numero geral)
-    # "5521989610777": "",   # Barra da Tijuca (acao ainda nao existe na conta)
-    # "5521996960114": "",   # Vargem Grande
-    # "5521997200114": "",   # Pedra de Guaratiba
-    # "5521971569700": "",   # Botafogo
+    # Recreio: e tambem o numero GERAL do site (header, botao flutuante,
+    # formularios). Esta certo contar como Recreio, porque a mensagem cai
+    # mesmo no WhatsApp dessa unidade.
+    "5521972770014": "PeuhCNXduYwcEMnq2rMp",   # Loja Recreio (Terreirao)
+    "5521971569700": "90HkCKjauYwcEMnq2rMp",   # Loja Botafogo
+    "5521996960114": "oxvlCKXauYwcEMnq2rMp",   # Loja Vargem Grande
+    "5521997200114": "85gvCK7auYwcEMnq2rMp",   # Loja Pedra Guaratiba
+    # Sem par no site, ficam de fora ate alguem resolver os dois lados:
+    #   "Loja Le Gusta" (udZ7CKvauYwcEMnq2rMp) e uma acao sem unidade no site
+    #   Barra da Tijuca (5521989610777) e uma unidade sem acao na conta
 }
 
 
