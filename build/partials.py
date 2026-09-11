@@ -71,7 +71,7 @@ AREAS = [
 #       gtag('event', 'conversion', {'send_to': 'AW-123456789/AbC-D_efGhIj'})
 #   A parte antes da barra e o ID (igual para todas as acoes).
 #   A parte depois da barra e o ROTULO, diferente em cada acao.
-GOOGLE_ADS_ID = ""          # ex.: "AW-123456789"
+GOOGLE_ADS_ID = "AW-11114296649"
 
 # Rotulo por numero de WhatsApp. A atribuicao por unidade sai do proprio
 # numero no link, entao nao precisa marcar nada no HTML: cada unidade ja tem
