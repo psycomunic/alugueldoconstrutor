@@ -60,6 +60,50 @@ AREAS = [
 ]
 
 # ===========================================================================
+# 1b. GOOGLE ADS: conversao de clique no WhatsApp
+# ===========================================================================
+# Enquanto GOOGLE_ADS_ID estiver vazio, NADA e emitido: nenhum script, nenhuma
+# conexao a terceiro, nenhum cookie. O site continua exatamente como esta.
+#
+# Onde achar os valores, no Google Ads:
+#   Ferramentas > Conversoes > clique na acao > "Configurar tag" >
+#   "Instalar a tag manualmente". O trecho mostra algo como
+#       gtag('event', 'conversion', {'send_to': 'AW-123456789/AbC-D_efGhIj'})
+#   A parte antes da barra e o ID (igual para todas as acoes).
+#   A parte depois da barra e o ROTULO, diferente em cada acao.
+GOOGLE_ADS_ID = ""          # ex.: "AW-123456789"
+
+# Rotulo por numero de WhatsApp. A atribuicao por unidade sai do proprio
+# numero no link, entao nao precisa marcar nada no HTML: cada unidade ja tem
+# um numero unico. A chave "geral" cobre o numero principal do site.
+GOOGLE_ADS_CONVERSOES = {
+    # "5521972770014": "",   # Recreio dos Bandeirantes (e numero principal)
+    # "5521989610777": "",   # Barra da Tijuca
+    # "5521996960114": "",   # Vargem Grande
+    # "5521997200114": "",   # Pedra de Guaratiba
+    # "5521971569700": "",   # Botafogo
+}
+
+
+def google_ads_head():
+    """Tag do Google Ads e o mapa de conversoes. Vazio se nao configurado."""
+    if not GOOGLE_ADS_ID:
+        return ""
+    import json
+    pares = {k: v for k, v in GOOGLE_ADS_CONVERSOES.items() if v}
+    return (
+        '\n  <script async src="https://www.googletagmanager.com/gtag/js?id=%s"></script>'
+        '\n  <script>window.dataLayer=window.dataLayer||[];'
+        'function gtag(){dataLayer.push(arguments)}'
+        'gtag(%s,new Date());gtag(%s,%s);'
+        'window.__ADS={id:%s,conv:%s};</script>'
+        % (GOOGLE_ADS_ID,
+           json.dumps("js"), json.dumps("config"), json.dumps(GOOGLE_ADS_ID),
+           json.dumps(GOOGLE_ADS_ID), json.dumps(pares, ensure_ascii=False))
+    )
+
+
+# ===========================================================================
 # 2. DOMINIO
 # ===========================================================================
 # og:image, og:url, canonical e o sitemap precisam de URL absoluta que exista
@@ -244,7 +288,7 @@ def head(title, description, path, depth=0, image="assets/img/og-cover.jpg",
   <link rel="preload" href="%(font_body)s" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="%(font_display)s" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="%(css)s">%(pre)s
-  <script>document.documentElement.className+=" js"</script>
+  <script>document.documentElement.className+=" js"</script>%(ads)s
 %(extra)s</head>
 <body>
 <a class="skip-link" href="#conteudo">Ir para o conteúdo</a>
@@ -261,6 +305,7 @@ def head(title, description, path, depth=0, image="assets/img/og-cover.jpg",
         # buscado se aparecer um glifo fora de U+0000-00FF.
         "font_body": r("assets/fonts/inter-latin.woff2"),
         "font_display": r("assets/fonts/archivo-latin.woff2"),
+        "ads": google_ads_head(),
         "pre": pre, "extra": extra,
     }
 

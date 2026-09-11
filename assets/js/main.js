@@ -262,6 +262,29 @@
     });
   });
 
+  /* ------------------------------------------------------------ conversao do Google Ads
+     Dispara a conversao quando alguem clica num link de WhatsApp. A unidade
+     sai do proprio numero no link, porque cada uma tem um numero unico, entao
+     nao precisa marcar nada no HTML.
+     So roda se partials.py tiver o ID configurado: sem isso, window.__ADS nem
+     existe e nada acontece. */
+  var ads = window.__ADS;
+  if (ads && ads.id && typeof window.gtag === 'function') {
+    document.addEventListener('click', function (e) {
+      var a = e.target.closest && e.target.closest('a[href*="wa.me/"]');
+      if (!a) return;
+      var m = a.getAttribute('href').match(/wa\.me\/(\d+)/);
+      if (!m) return;
+      var rotulo = ads.conv[m[1]];
+      if (!rotulo) return;
+      window.gtag('event', 'conversion', {
+        send_to: ads.id + '/' + rotulo,
+        /* beacon sobrevive a navegacao, caso o link nao abra em outra aba */
+        transport_type: 'beacon',
+      });
+    }, true);
+  }
+
   /* ------------------------------------------------------------ ano no rodape */
   $$('[data-year]').forEach(function (el) { el.textContent = new Date().getFullYear(); });
 })();
