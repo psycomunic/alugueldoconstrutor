@@ -73,12 +73,17 @@ AREAS = [
 #   A parte depois da barra e o ROTULO, diferente em cada acao.
 GOOGLE_ADS_ID = "AW-11114296649"
 
-# Rotulo por numero de WhatsApp. A atribuicao por unidade sai do proprio
-# numero no link, entao nao precisa marcar nada no HTML: cada unidade ja tem
-# um numero unico. A chave "geral" cobre o numero principal do site.
+# A conta tem UMA acao principal e CINCO secundarias, uma por loja. Entao todo
+# clique dispara a principal, e dispara tambem a da loja quando o numero tiver
+# rotulo. Sem isso a principal so contaria os cliques no numero geral.
+GOOGLE_ADS_CONVERSAO_GERAL = "2PT5CJrjwtAbEMnq2rMp"   # "Clique no Whatsapp"
+
+# Rotulo da acao secundaria, por numero de WhatsApp. A atribuicao por unidade
+# sai do proprio numero no link, porque cada unidade tem um numero unico, entao
+# nao precisa marcar nada no HTML.
 GOOGLE_ADS_CONVERSOES = {
-    # "5521972770014": "",   # Recreio dos Bandeirantes (e numero principal)
-    # "5521989610777": "",   # Barra da Tijuca
+    # "5521972770014": "",   # Recreio dos Bandeirantes (e o numero geral)
+    # "5521989610777": "",   # Barra da Tijuca (acao ainda nao existe na conta)
     # "5521996960114": "",   # Vargem Grande
     # "5521997200114": "",   # Pedra de Guaratiba
     # "5521971569700": "",   # Botafogo
@@ -96,10 +101,11 @@ def google_ads_head():
         '\n  <script>window.dataLayer=window.dataLayer||[];'
         'function gtag(){dataLayer.push(arguments)}'
         'gtag(%s,new Date());gtag(%s,%s);'
-        'window.__ADS={id:%s,conv:%s};</script>'
+        'window.__ADS={id:%s,geral:%s,conv:%s};</script>'
         % (GOOGLE_ADS_ID,
            json.dumps("js"), json.dumps("config"), json.dumps(GOOGLE_ADS_ID),
-           json.dumps(GOOGLE_ADS_ID), json.dumps(pares, ensure_ascii=False))
+           json.dumps(GOOGLE_ADS_ID), json.dumps(GOOGLE_ADS_CONVERSAO_GERAL),
+           json.dumps(pares, ensure_ascii=False))
     )
 
 

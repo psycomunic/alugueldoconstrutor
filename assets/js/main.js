@@ -275,12 +275,16 @@
       if (!a) return;
       var m = a.getAttribute('href').match(/wa\.me\/(\d+)/);
       if (!m) return;
-      var rotulo = ads.conv[m[1]];
-      if (!rotulo) return;
-      window.gtag('event', 'conversion', {
-        send_to: ads.id + '/' + rotulo,
-        /* beacon sobrevive a navegacao, caso o link nao abra em outra aba */
-        transport_type: 'beacon',
+      /* a principal conta todo clique; a da loja, quando o numero tiver rotulo */
+      var rotulos = [];
+      if (ads.geral) rotulos.push(ads.geral);
+      if (ads.conv[m[1]]) rotulos.push(ads.conv[m[1]]);
+      rotulos.forEach(function (rotulo) {
+        window.gtag('event', 'conversion', {
+          send_to: ads.id + '/' + rotulo,
+          /* beacon sobrevive a navegacao, caso o link nao abra em outra aba */
+          transport_type: 'beacon',
+        });
       });
     }, true);
   }
