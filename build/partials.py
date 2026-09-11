@@ -94,6 +94,23 @@ GOOGLE_ADS_CONVERSOES = {
     #   Barra da Tijuca (5521989610777) e uma unidade sem acao na conta
 }
 
+# Outras metas da conta, cada uma ligada a um gesto diferente do visitante.
+# Enquanto o rotulo estiver vazio o evento NAO e disparado: o codigo do site ja
+# esta pronto, so falta colar o rotulo que o Google Ads da em cada acao.
+#
+#   FORMULARIO  meta "Enviar formulario de lead". Vale para os dois formularios
+#               (contato e equipamentos). Dispara no envio, nao no clique: o
+#               formulario abre o WhatsApp por window.open, entao o clique no
+#               link nem existe e a conversao GERAL nao pega esse lead.
+#               So esta acao conta o envio, para nao contar o mesmo lead duas
+#               vezes.
+#   TELEFONE    meta "Lead telefonico". Clique em link tel:, que no site inteiro
+#               aponta para o numero geral (21) 97277-0014.
+#   ROTA        meta "Ver rota". Clique no link de mapa das unidades.
+GOOGLE_ADS_CONVERSAO_FORMULARIO = ""
+GOOGLE_ADS_CONVERSAO_TELEFONE = ""
+GOOGLE_ADS_CONVERSAO_ROTA = ""
+
 
 def google_ads_head():
     """Tag do Google Ads e o mapa de conversoes. Vazio se nao configurado."""
@@ -106,11 +123,14 @@ def google_ads_head():
         '\n  <script>window.dataLayer=window.dataLayer||[];'
         'function gtag(){dataLayer.push(arguments)}'
         'gtag(%s,new Date());gtag(%s,%s);'
-        'window.__ADS={id:%s,geral:%s,conv:%s};</script>'
+        'window.__ADS={id:%s,geral:%s,conv:%s,form:%s,tel:%s,rota:%s};</script>'
         % (GOOGLE_ADS_ID,
            json.dumps("js"), json.dumps("config"), json.dumps(GOOGLE_ADS_ID),
            json.dumps(GOOGLE_ADS_ID), json.dumps(GOOGLE_ADS_CONVERSAO_GERAL),
-           json.dumps(pares, ensure_ascii=False))
+           json.dumps(pares, ensure_ascii=False),
+           json.dumps(GOOGLE_ADS_CONVERSAO_FORMULARIO),
+           json.dumps(GOOGLE_ADS_CONVERSAO_TELEFONE),
+           json.dumps(GOOGLE_ADS_CONVERSAO_ROTA))
     )
 
 

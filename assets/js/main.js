@@ -262,30 +262,51 @@
     });
   });
 
-  /* ------------------------------------------------------------ conversao do Google Ads
-     Dispara a conversao quando alguem clica num link de WhatsApp. A unidade
-     sai do proprio numero no link, porque cada uma tem um numero unico, entao
-     nao precisa marcar nada no HTML.
+  /* ------------------------------------------------------------ conversoes do Google Ads
+     Quatro gestos viram conversao: clique no WhatsApp, envio de formulario,
+     clique no telefone e clique na rota. Cada um tem a sua acao na conta, e
+     rotulo vazio significa acao ainda nao configurada: nada dispara.
      So roda se partials.py tiver o ID configurado: sem isso, window.__ADS nem
      existe e nada acontece. */
   var ads = window.__ADS;
   if (ads && ads.id && typeof window.gtag === 'function') {
-    document.addEventListener('click', function (e) {
-      var a = e.target.closest && e.target.closest('a[href*="wa.me/"]');
-      if (!a) return;
-      var m = a.getAttribute('href').match(/wa\.me\/(\d+)/);
-      if (!m) return;
-      /* a principal conta todo clique; a da loja, quando o numero tiver rotulo */
-      var rotulos = [];
-      if (ads.geral) rotulos.push(ads.geral);
-      if (ads.conv[m[1]]) rotulos.push(ads.conv[m[1]]);
+    var dispara = function (rotulos) {
       rotulos.forEach(function (rotulo) {
+        if (!rotulo) return;
         window.gtag('event', 'conversion', {
           send_to: ads.id + '/' + rotulo,
           /* beacon sobrevive a navegacao, caso o link nao abra em outra aba */
           transport_type: 'beacon',
         });
       });
+    };
+
+    /* captura para rodar antes de qualquer preventDefault do resto do arquivo */
+    document.addEventListener('click', function (e) {
+      var alvo = e.target.closest;
+      if (!alvo) return;
+
+      /* WhatsApp: a unidade sai do proprio numero no link, porque cada uma tem
+         um numero unico, entao nao precisa marcar nada no HTML. A principal
+         conta todo clique; a da loja, quando o numero tiver rotulo. */
+      var wa = e.target.closest('a[href*="wa.me/"]');
+      if (wa) {
+        var m = wa.getAttribute('href').match(/wa\.me\/(\d+)/);
+        if (m) dispara([ads.geral, ads.conv[m[1]]]);
+        return;
+      }
+
+      if (e.target.closest('a[href^="tel:"]')) { dispara([ads.tel]); return; }
+      if (e.target.closest('a[href*="google.com/maps"]')) dispara([ads.rota]);
+    }, true);
+
+    /* Formulario: abre o WhatsApp por window.open, entao nao passa pelo clique
+       em link acima. Dispara so a acao de formulario, para o mesmo lead nao
+       entrar duas vezes. */
+    document.addEventListener('submit', function (e) {
+      if (e.target && e.target.matches && e.target.matches('[data-wa-form]')) {
+        dispara([ads.form]);
+      }
     }, true);
   }
 
