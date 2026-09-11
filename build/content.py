@@ -21,6 +21,8 @@ UNIDADES = [
     # errado herdado do WordPress.
     {
         "slug": "recreio-dos-bandeirantes",
+        "foto": "recreio-terreirao",
+        "foto_alt": ("Fachada da loja Pardal Materiais de Construção onde funciona a unidade do Recreio dos Bandeirantes"),
         "seo_title": "Aluguel de Equipamentos no Recreio dos Bandeirantes",
         "seo_desc": "Locação de andaimes, betoneiras e marteletes no Recreio dos Bandeirantes, RJ. Entrega na obra e orçamento no WhatsApp (21) 97277-0014.",
         "nome": "Recreio dos Bandeirantes",
