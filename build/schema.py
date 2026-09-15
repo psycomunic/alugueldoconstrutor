@@ -85,13 +85,22 @@ def _matriz():
     return UNIDADES[0]
 
 
-def _hours():
+def _hours(u=None):
+    """Horario da rede, ou o da unidade quando ela tiver o seu.
+
+    So a Tijuca tem horario proprio hoje. O padrao vale para o resto e para a
+    Organization, que fala pela rede inteira.
+    """
+    h = (u or {}).get("horario_schema") or {
+        "semana": ("07:00", "17:00"), "sabado": ("07:00", "12:00"),
+    }
     return [
         {"@type": "OpeningHoursSpecification",
          "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-         "opens": "07:00", "closes": "17:00"},
+         "opens": h["semana"][0], "closes": h["semana"][1]},
         {"@type": "OpeningHoursSpecification",
-         "dayOfWeek": ["Saturday"], "opens": "07:00", "closes": "12:00"},
+         "dayOfWeek": ["Saturday"],
+         "opens": h["sabado"][0], "closes": h["sabado"][1]},
     ]
 
 
@@ -171,10 +180,11 @@ def unidade(u, full=True):
             **({"streetAddress": u["rua"]} if u["rua"] else {}),
             "addressLocality": P.CITY,
             "addressRegion": P.STATE,
+            **({"postalCode": u["cep"]} if u.get("cep") else {}),
             "addressCountry": P.COUNTRY,
         },
         "hasMap": P.maps_link(u["endereco"]),
-        "openingHoursSpecification": _hours(),
+        "openingHoursSpecification": _hours(u),
         "areaServed": [{"@type": "Place", "name": a} for a in u["atende"]],
         "image": P.SITE + "/assets/img/og-cover.jpg",
     }

@@ -39,11 +39,13 @@ COUNTRY = "BR"
 # cobertura adicional de Jacarepagua e Zona Norte.
 AREAS = [
     # bairros onde ficam as cinco unidades
-    "Recreio dos Bandeirantes", "Vargem Grande", "Pedra de Guaratiba", "Botafogo",
+    "Recreio dos Bandeirantes", "Tijuca", "Vargem Grande", "Pedra de Guaratiba",
+    "Botafogo",
     # maior volume de busca no entorno
     "Barra da Tijuca", "Jacarepaguá", "Campo Grande", "Guaratiba",
-    "Vargem Pequena", "Copacabana", "Ipanema", "Freguesia (Jacarepaguá)",
+    "Vargem Pequena", "Copacabana", "Ipanema",
     # --- daqui para baixo nao entra no areaServed dos Service ---
+    "Freguesia (Jacarepaguá)",
     # Zona Sul
     "Leblon", "Flamengo", "Laranjeiras", "Humaitá", "Catete", "Urca", "Gávea",
     "Jardim Botânico", "São Conrado",
@@ -55,8 +57,8 @@ AREAS = [
     # Guaratiba e Zona Oeste
     "Barra de Guaratiba", "Santa Cruz", "Sepetiba", "Cosmos",
     "Senador Vasconcelos", "Santíssimo", "Bangu", "Realengo",
-    # Zona Norte
-    "Madureira", "Méier", "Irajá", "Penha",
+    # Tijuca e Zona Norte
+    "Rio Comprido", "Madureira", "Méier", "Irajá", "Penha",
 ]
 
 # ===========================================================================
@@ -91,7 +93,9 @@ GOOGLE_ADS_CONVERSOES = {
     "5521997200114": "85gvCK7auYwcEMnq2rMp",   # Loja Pedra Guaratiba
     # Sem par no site, ficam de fora ate alguem resolver os dois lados:
     #   "Loja Le Gusta" (udZ7CKvauYwcEMnq2rMp) e uma acao sem unidade no site
-    #   Barra da Tijuca (5521989610777) e uma unidade sem acao na conta
+    #   Tijuca (5521971130130) e uma unidade sem acao na conta. O numero antigo
+    #   dessa unidade, 5521989610777, saiu do site em 15/09/2026 junto com o
+    #   rotulo errado de "Barra da Tijuca".
 }
 
 # Outras metas da conta, cada uma ligada a um gesto diferente do visitante.

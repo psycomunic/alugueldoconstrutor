@@ -29,6 +29,21 @@ PAGES = []                      # (path, prioridade, changefreq) para o sitemap
 # ===========================================================================
 # helpers
 # ===========================================================================
+def _bairro_end(u):
+    """Bairro que vai no ENDERECO, que nem sempre e o nome da unidade.
+
+    A unidade da Tijuca fica na Rua do Matoso, que os Correios situam no Rio
+    Comprido. O nome da unidade segue Tijuca, porque e o que as pessoas
+    procuram, mas o endereco impresso na tela tem que ser o verdadeiro.
+    """
+    return u.get("bairro_endereco") or u["bairro"]
+
+
+def _cep(u):
+    """CEP entre virgulas, quando a unidade tiver. Vazio quando nao tiver."""
+    return (", %s" % u["cep"]) if u.get("cep") else ""
+
+
 def write(path, html, priority="0.7", changefreq="monthly", sitemap=True):
     full = os.path.join(ROOT, path)
     os.makedirs(os.path.dirname(full) or ".", exist_ok=True)
@@ -112,11 +127,12 @@ def unit_cards(depth, exclude=None):
             "k": "Matriz" if u.get("matriz") else "Unidade",
             "linha_end": (
                 '<div>%s <span>%s<br>%s, Rio de Janeiro &ndash; RJ</span></div>'
-                % (ICO("pin"), u["rua"], u["bairro"])) if u["rua"] else (
+                % (ICO("pin"), u["rua"], _bairro_end(u))) if u["rua"] else (
                 '<div>%s <span>%s, Rio de Janeiro &ndash; RJ</span></div>'
-                % (ICO("pin"), u["bairro"])),
+                % (ICO("pin"), _bairro_end(u))),
             "nome": u["nome"], "rua": u["rua"], "bairro": u["bairro"],
-            "hours": P.HOURS_SHORT, "wa": u["wa"], "wa_d": u["wa_display"],
+            "hours": u.get("horario_curto") or P.HOURS_SHORT,
+            "wa": u["wa"], "wa_d": u["wa_display"],
             "ico_pin": ICO("pin"), "ico_cl": ICO("clock"), "ico_wa": ICO("whatsapp"),
             "href": r("unidades/%s.html" % u["slug"], depth), "arrow": ICO("arrow"),
         })
@@ -759,9 +775,9 @@ def page_equipamento(e):
 
       <h2>Entrega no Rio de Janeiro</h2>
       <p>Entregamos e retiramos com frota própria a partir das nossas cinco unidades:
-      duas no <a href="%(u1)s">Recreio dos Bandeirantes</a>, uma em
-      <a href="%(u2)s">Vargem Grande</a>, uma em <a href="%(u3)s">Pedra de Guaratiba</a>
-      e uma em <a href="%(u4)s">Botafogo</a>. Isso cobre a Barra da Tijuca e o Recreio,
+      <a href="%(u1)s">Recreio dos Bandeirantes</a>, <a href="%(u5)s">Tijuca</a>,
+      <a href="%(u2)s">Vargem Grande</a>, <a href="%(u3)s">Pedra de Guaratiba</a>
+      e <a href="%(u4)s">Botafogo</a>. Isso cobre a Barra da Tijuca e o Recreio,
       as vargens, Jacarepaguá e entorno, a região de Guaratiba, Campo Grande, a Zona Sul
       inteira e parte da Zona Norte.</p>
       %(sinon)s
@@ -810,6 +826,7 @@ def page_equipamento(e):
         "u2": r("unidades/vargem-grande.html", depth),
         "u3": r("unidades/pedra-de-guaratiba.html", depth),
         "u4": r("unidades/botafogo.html", depth),
+        "u5": r("unidades/tijuca.html", depth),
         "sinon": sinon_txt,
         "tel": "tel:" + P.PHONE_TEL, "phone": P.PHONE_DISPLAY,
         "sidelist": sidelist,
@@ -884,7 +901,7 @@ def page_unidades():
           <li><strong>Jacarepaguá e entorno:</strong> Jacarepaguá, Freguesia (Jacarepaguá), Pechincha, Taquara, Tanque, Praça Seca, Anil, Gardênia Azul, Curicica, Cidade de Deus</li>
           <li><strong>Guaratiba, Campo Grande e Zona Oeste:</strong> Pedra de Guaratiba, Guaratiba, Barra de Guaratiba, Campo Grande, Santa Cruz, Sepetiba, Cosmos, Senador Vasconcelos, Santíssimo, Bangu, Realengo</li>
           <li><strong>Zona Sul:</strong> Botafogo, Humaitá, Flamengo, Laranjeiras, Catete, Copacabana, Ipanema, Leblon, Urca, Gávea, Jardim Botânico</li>
-          <li><strong>Zona Norte:</strong> Madureira, Méier, Irajá, Penha</li>
+          <li><strong>Tijuca e Zona Norte:</strong> Tijuca, Rio Comprido, Madureira, Méier, Irajá, Penha</li>
         </ul>
         <p class="mt-6">A obra fica fora dessas regiões? Chame no WhatsApp mesmo assim.
         Dependendo do equipamento e do período, conseguimos atender.</p>
@@ -938,7 +955,7 @@ def page_unidade(u):
   <div class="wrap pagehead__in">
     %(crumbs)s
     <p class="eyebrow mt-6">%(kind)s</p>
-    <h1>Aluguel de equipamentos em %(bairro)s</h1>
+    <h1>Aluguel de equipamentos %(prep)s %(bairro)s</h1>
     <p class="lead">%(sobre)s</p>
     <div class="btn-row mt-6">
       <a class="btn btn--wa btn--lg" href="%(wa)s" target="_blank" rel="noopener">%(ico_wa)s WhatsApp %(wa_d)s</a>
@@ -977,7 +994,7 @@ def page_unidade(u):
 
     <aside class="aside">
       <div class="aside__card aside__card--dark">
-        <h3>Falar com %(curta)s</h3>
+        <h3>Falar com %(artigo)s%(curta)s</h3>
         <p>%(hours_long)s</p>
         <a class="btn btn--wa btn--block mt-4" href="%(wa)s" target="_blank" rel="noopener">%(ico_wa)s %(wa_d)s</a>
         <a class="btn btn--ghost btn--block mt-2" href="%(maps)s" target="_blank" rel="noopener">Como chegar</a>
@@ -994,7 +1011,7 @@ def page_unidade(u):
   <div class="wrap">
     <div class="sec-head">
       <p class="eyebrow">Catálogo</p>
-      <h2>Equipamentos disponíveis em %(bairro)s</h2>
+      <h2>Equipamentos disponíveis %(prep)s %(bairro)s</h2>
     </div>
     %(cards)s
     <div class="btn-row center mt-8"><a class="btn btn--dark" href="%(eq)s">Ver o catálogo completo</a></div>
@@ -1014,13 +1031,17 @@ def page_unidade(u):
                       u.get("foto_alt", "Fachada da unidade %s" % u["nome"]))
                    ) if u.get("foto") else "",
         "bloco_end": (
-            '<p><strong>%s</strong><br>%s, Rio de Janeiro &ndash; RJ</p>'
-            % (u["rua"], u["bairro"])) if u["rua"] else (
+            '<p><strong>%s</strong><br>%s, Rio de Janeiro &ndash; RJ%s</p>'
+            % (u["rua"], _bairro_end(u), _cep(u))) if u["rua"] else (
             '<p><strong>%s, Rio de Janeiro &ndash; RJ</strong></p>'
             '<p class="form__note">Endereço completo em confirmação. Chame no WhatsApp que passamos o ponto exato.</p>'
-            % u["bairro"]),
+            % _bairro_end(u)),
         "bairro": u["bairro"], "sobre": u["sobre"], "rua": u["rua"],
-        "hours_long": P.HOURS_LONG, "wa": wa, "wa_d": u["wa_display"],
+        # "em Tijuca" e "em Recreio" estao errados em portugues.
+        # Cada unidade diz como o proprio nome entra na frase.
+        "prep": u.get("prep") or "em", "artigo": u.get("artigo") or "",
+        "hours_long": u.get("horario_longo") or P.HOURS_LONG,
+        "wa": wa, "wa_d": u["wa_display"],
         "maps": P.maps_link(u["endereco"]),
         "ico_wa": ICO("whatsapp"), "ico_pin": ICO("pin"),
         "atende": atende, "curta": u["titulo_curto"],

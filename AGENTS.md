@@ -112,6 +112,16 @@ AREAS         = [...]                    # bairros: alimenta o texto e o areaSer
 Unidades (endereço, WhatsApp próprio, bairros atendidos, título e description de SEO):
 `build/content.py` → lista `UNIDADES`.
 
+Campos opcionais da unidade, todos com fallback para o padrão da rede:
+
+| Campo | Para quê |
+|---|---|
+| `bairro_endereco` | quando o bairro do endereço não é o nome da unidade. A Tijuca fica na Rua do Matoso, que os Correios situam no Rio Comprido |
+| `cep` | entra no endereço visível e vira `postalCode` no JSON-LD |
+| `horario_curto` / `horario_longo` | horário próprio no card e na página. Sem isso, usa `HOURS_SHORT` / `HOURS_LONG` de `partials.py` |
+| `horario_schema` | `{"semana": ("07:30","16:30"), "sabado": (...)}`, vira `openingHoursSpecification` só dessa unidade |
+| `rua` vazia | unidade aparece sem endereço, com aviso de confirmação. Card, página e JSON-LD se adaptam |
+
 Equipamentos (texto, aplicações, o que considerar, FAQ, sinônimos de busca):
 `build/content.py` → lista `EQUIPAMENTOS`.
 
@@ -212,7 +222,12 @@ Não remova nada disto sem entender o efeito.
 
 ## Pendências conhecidas
 
-- [ ] Confirmar CEP de cada unidade e adicionar ao `PostalAddress` no `schema.py`
+- [ ] Confirmar CEP das outras quatro unidades. O campo já existe: `"cep"` na unidade
+      vira `postalCode` no `schema.py` e entra no endereço visível. Só a Tijuca tem
+- [ ] **Cobertura da Tijuca.** A unidade entrou com `atende` mínimo, só `Tijuca` e
+      `Rio Comprido`, que são os bairros da própria loja. Ninguém confirmou até onde
+      ela entrega. Enquanto isso, Madureira, Méier, Irajá e Penha aparecem em "Onde
+      entregamos" sem pertencer a nenhuma unidade
 - [ ] Adicionar `geo` (latitude/longitude) por unidade em `schema.py`. Hoje só existe
       `hasMap`, porque coordenada inventada é pior que coordenada ausente
 - [ ] Confirmar e-mail de contato (`EMAIL` em `partials.py` está vazio de propósito)

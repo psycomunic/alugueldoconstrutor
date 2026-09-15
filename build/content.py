@@ -28,6 +28,9 @@ UNIDADES = [
         "nome": "Recreio dos Bandeirantes",
         "bairro": "Recreio dos Bandeirantes",
         "titulo_curto": "Recreio",
+        # "no Recreio", "o Recreio": o nome pede artigo, "em Recreio" soa errado
+        "prep": "no",
+        "artigo": "o ",
         "rua": "Rua Léon Eliachar, 14",
         "wa": "5521972770014",
         "wa_display": "(21) 97277-0014",
@@ -38,28 +41,41 @@ UNIDADES = [
                   "Fica em via de fácil acesso para caminhão, o que encurta o tempo "
                   "entre o pedido e a chegada do equipamento na obra."),
     },
+    # Esta unidade entrou no site como "Barra da Tijuca", rotulo herdado do
+    # WordPress. O cliente confirmou em 15/09/2026 que e a loja da Tijuca: o
+    # endereco, o telefone e o horario sao outros, e nao existe unidade na
+    # Barra. O slug antigo tem 301 no vercel.json.
     {
-        "slug": "barra-da-tijuca",
+        "slug": "tijuca",
         "foto": "rede-construir-tijuca",
-        "foto_alt": ("Fachada da loja Rede Construir onde funciona a unidade da Barra da Tijuca"),
-        "seo_title": "Aluguel de Equipamentos na Barra da Tijuca",
-        "seo_desc": "Locação de andaimes, betoneiras e marteletes na Barra da Tijuca, RJ. Entrega na obra e orçamento no WhatsApp (21) 98961-0777.",
-        "nome": "Barra da Tijuca",
-        "bairro": "Barra da Tijuca",
-        "titulo_curto": "Barra da Tijuca",
-        # Endereco pendente de confirmacao. A hipotese e a Rua Professora Luiza
-        # Nogueira Goncalves, 350, que o site trazia nesta unidade, mas os
-        # Correios situam essa rua no Recreio, nao na Barra. Enquanto nao
-        # confirmarem, a unidade aparece sem endereco: card, pagina e JSON-LD
-        # se adaptam sozinhos.
-        "rua": "",
-        "wa": "5521989610777",
-        "wa_display": "(21) 98961-0777",
+        "foto_alt": ("Fachada da loja Rede Construir, na Rua do Matoso, onde funciona a unidade da Tijuca"),
+        "seo_title": "Aluguel de Equipamentos na Tijuca, Rio de Janeiro",
+        "seo_desc": "Locação de andaimes, betoneiras e marteletes na Tijuca e no Rio Comprido, RJ. Entrega na obra e orçamento no WhatsApp (21) 97113-0130.",
+        "nome": "Tijuca",
+        "bairro": "Tijuca",
+        "titulo_curto": "Tijuca",
+        "prep": "na",
+        "artigo": "a ",
+        "rua": "Rua do Matoso, 242",
+        # O endereco fica oficialmente no Rio Comprido, na divisa com a Tijuca.
+        # A unidade se chama Tijuca porque e assim que procuram no Google, mas o
+        # endereco mostrado continua o verdadeiro, sem maquiagem.
+        "bairro_endereco": "Rio Comprido",
+        "cep": "20270-135",
+        "wa": "5521971130130",
+        "wa_display": "(21) 97113-0130",
         "matriz": False,
-        "atende": ["Barra da Tijuca", "Barra Olímpica", "Itanhangá", "Joá",
-                   "São Conrado", "Recreio dos Bandeirantes"],
-        "sobre": ("Atende a Barra da Tijuca e o entorno, de reforma de apartamento "
-                  "a obra comercial. Fale no WhatsApp que confirmamos disponibilidade "
+        # Unica unidade com horario proprio: abre e fecha meia hora depois das
+        # outras, e o sabado vai ate 12h30.
+        "horario_curto": "Seg. a sex., 7h30 às 16h30 · Sáb., 7h30 às 12h30",
+        "horario_longo": "Segunda a sexta, das 7h30 às 16h30. Sábado, das 7h30 às 12h30.",
+        "horario_schema": {"semana": ("07:30", "16:30"), "sabado": ("07:30", "12:30")},
+        # So os dois bairros da propria loja. O resto da cobertura da Tijuca
+        # ainda nao foi confirmado por ninguem, entao nao entra.
+        "atende": ["Tijuca", "Rio Comprido"],
+        "sobre": ("Fica na Rua do Matoso, na divisa da Tijuca com o Rio Comprido. "
+                  "É a unidade mais prática para reforma de apartamento e obra em "
+                  "prédio na região. Fale no WhatsApp que confirmamos disponibilidade "
                   "e o prazo de entrega no seu endereço."),
     },
     {
@@ -127,7 +143,9 @@ UNIDADES = [
 
 for _u in UNIDADES:
     # unidade sem rua confirmada entra so com bairro e cidade
-    _u["endereco"] = (("%s - " % _u["rua"]) if _u["rua"] else "") +         "%s, Rio de Janeiro - RJ" % _u["bairro"]
+    # bairro_endereco existe para a Tijuca, cujo endereco fica no Rio Comprido:
+    # o nome da unidade e um, o bairro do endereco e outro, e os dois sao certos
+    _u["endereco"] = (("%s - " % _u["rua"]) if _u["rua"] else "") +         "%s, Rio de Janeiro - RJ" % (_u.get("bairro_endereco") or _u["bairro"]) +         ((", %s" % _u["cep"]) if _u.get("cep") else "")
 
 # ===========================================================================
 # EQUIPAMENTOS
